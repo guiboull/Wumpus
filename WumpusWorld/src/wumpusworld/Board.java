@@ -7,7 +7,7 @@ package wumpusworld;
 
 /**
  *
- * @author frus71323
+ * test commit 
  */
 
 public class Board {
