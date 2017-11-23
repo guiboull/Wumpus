@@ -7,7 +7,7 @@ package wumpusworld;
 
 /**
  *
- * test commit 
+ * test commit 222
  */
 
 public class Board {
