@@ -12,10 +12,12 @@ import javax.swing.JFrame;
  * @author frus71323
  */
 public class WumpusWorld {
+
     /**
      * @param args the command line arguments
      */
-    private static final int numberOfCells = 4;
+    private static final int numberOfCells = 9;
+
     public static void main(String[] args) {
         // TODO code application logic here
         Board boardGame = new Board(numberOfCells, numberOfCells);
@@ -24,8 +26,9 @@ public class WumpusWorld {
         boardGame.showBoard2();
         boardGame.showBoard3();
         GameWindow mWindow= new GameWindow(boardGame);
-        
-        //boardGame.cheminOpti(1, 1, Direction.S, "", 10);
+        System.out.print("test");
+        boardGame.cheminOpti(numberOfCells, 1, Direction.N, "", 20);
+        System.out.println(boardGame.getCheminOpti());
     }
-    
+
 }
