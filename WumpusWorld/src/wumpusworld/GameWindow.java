@@ -19,11 +19,11 @@ public class GameWindow {
     private JButton[][] buttonGrid;
 
     public GameWindow(Board mBoard) {
-        buttonGrid = new JButton[mBoard.x][mBoard.y];
+        buttonGrid = new JButton[mBoard.col][mBoard.row];
         JFrame window = new JFrame();
         window.setTitle("Le monde de Wumpus");
         window.setSize(windowsSize, windowsSize);
-        window.setLayout(new GridLayout(mBoard.x, mBoard.y));
+        window.setLayout(new GridLayout(mBoard.col, mBoard.row));
         for (int row = 0; row < buttonGrid.length; row++) {
             for (int col = 0; col < buttonGrid[row].length; col++) {
                 String cellLabel = "";
