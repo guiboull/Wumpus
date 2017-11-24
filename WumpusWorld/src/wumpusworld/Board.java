@@ -9,44 +9,42 @@ package wumpusworld;
  *
  * test commit 222
  */
-
 public class Board {
 
     protected Cell board[][];
-    protected int x;
-    protected int y;
+    protected int col;
+    protected int row;
     protected boolean monster;
     protected boolean player;
     protected String cheminOpti;
 
-    public Board(int xx, int yy) {
-        x = xx + 2;
-        y = yy + 2;
-        board = new Cell[x][y];
+    public Board(int x, int y) {
+        col = x + 2;
+        row = y + 2;
+        board = new Cell[col][row];
 
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
                 board[i][j] = new Cell();
-                if (i == 0 || j == 0 || i == x - 1 || j == y - 1) {
+                if (i == 0 || j == 0 || i == col - 1 || j == row - 1) {
                     board[i][j].setWall(true);
                 }
             }
         }
-
         monster = true;
         player = true;
         cheminOpti = "";
-        for (int i = 0; i < (x * y); i++) {
+        for (int i = 0; i < (col * row); i++) {
             cheminOpti += "oo ";
         }
     }
-    
-    public Cell[][] getBoard(){
+
+    public Cell[][] getBoard() {
         return board;
     }
 
-    public Cell getCell(int x, int y) {
-        return board[x][y];
+    public Cell getCell(int col, int y) {
+        return board[col][row];
     }
 
     public Cell getCell(int i, int j, Direction dir) {
@@ -84,14 +82,13 @@ public class Board {
         board[5][9].setGold(true);
     }
 
-    
     public void setPlayer(boolean b) {
         player = b;
     }
 
     public void showBoard() {
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
                 if (board[i][j].getWall() == true) {
                     System.out.print("x ");
                 } else if (board[i][j].getHole() == true) {
@@ -99,7 +96,7 @@ public class Board {
                 } else if (board[i][j].getMonster() == true) {
                     System.out.print("m ");
                 } else if (board[i][j].getPlayer() == true) {
-                    System.out.print("P ");
+                    System.out.print("p ");
                 } else if (board[i][j].getGold() == true) {
                     System.out.print("g ");
                 } else {
@@ -111,8 +108,8 @@ public class Board {
     }
 
     public void showBoard2() {
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
                 if (board[i][j].getWind() == true) {
                     System.out.print("w ");
                 } else if (board[i][j].getSmell() == true) {
@@ -128,8 +125,8 @@ public class Board {
     }
 
     public void showBoard3() {
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
                 if (board[i][j].getWall() == true) {
                     System.out.print("x  ");
                 } else {
@@ -144,11 +141,11 @@ public class Board {
         boolean ok = false;
         int i;
         int j;
-        board[x-2][1].setPlayer(true);
+        board[col - 2][1].setPlayer(true);
 
         while (ok == false) {
-            i = (int) (Math.random() * (x - 2)) + 1;
-            j = (int) (Math.random() * (y - 2)) + 1;
+            i = (int) (Math.random() * (col - 2)) + 1;
+            j = (int) (Math.random() * (row - 2)) + 1;
             if (board[i][j].getPlayer() == false) {
                 board[i][j].setMonster(true);
                 board[i][j].setSmell(true);
@@ -161,8 +158,9 @@ public class Board {
         }
         ok = false;
         while (ok == false) {
-            i = (int) (Math.random() * (x - 2)) + 1;
-            j = (int) (Math.random() * (y - 2)) + 1;
+            i = (int) (Math.random() * (col - 2)) + 1;
+            j = (int) (Math.random() * (row
+                    - 2)) + 1;
             if (board[i][j].getPlayer() == false && board[i][j].getMonster() == false) {
                 board[i][j].setGold(true);
                 ok = true;
@@ -172,8 +170,8 @@ public class Board {
 
         for (int it = 0; it < holes; it++) {
             while (ok == false) {
-                i = (int) (Math.random() * (x - 2)) + 1;
-                j = (int) (Math.random() * (y - 2)) + 1;
+                i = (int) (Math.random() * (col - 2)) + 1;
+                j = (int) (Math.random() * (row - 2)) + 1;
                 if (board[i][j].getPlayer() == false && board[i][j].getMonster() == false && board[i][j].getHole() == false && board[i][j].getGold() == false) {
                     board[i][j].setHole(true);
                     board[i + 1][j].setWind(true);
