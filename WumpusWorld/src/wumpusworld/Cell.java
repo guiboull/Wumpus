@@ -4,6 +4,7 @@ public class Cell {
 
     protected boolean smell;
     protected boolean wind;
+    
     protected boolean monster;
     protected boolean gold;
     protected boolean hole;

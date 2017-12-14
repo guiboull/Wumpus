@@ -15,8 +15,8 @@ public class WumpusWorld {
         boardGame.showBoard2();
         boardGame.showBoard3();
         GameWindow mWindow= new GameWindow(boardGame);
-        boardGame.cheminPasTropOpti(numberOfCells, 1, Direction.N, "", 20);
-        System.out.println(boardGame.getCheminPasTropOpti());
-    }
-
+        //boardGame.cheminPasTropOpti(numberOfCells, 1, Direction.N, "", 20);
+        //System.out.println(boardGame.getCheminPasTropOpti());
+    }  
+    
 }

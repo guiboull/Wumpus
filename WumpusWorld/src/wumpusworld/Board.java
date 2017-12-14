@@ -3,27 +3,45 @@ package wumpusworld;
 public class Board {
 
     protected Cell board[][];
+    protected boolean proxiBoard[][][][];
     protected int col;
     protected int row;
-    protected boolean monster;
-    protected boolean player;
+    protected boolean monsterAlive;
+    protected boolean playerAlive;
+    protected String cheminOpti;
     protected String cheminPasTropOpti;
 
     public Board(int x, int y) {
         col = x + 2;
         row = y + 2;
         board = new Cell[col][row];
+        proxiBoard = new boolean[col][row][col][row];
 
         for (int i = 0; i < col; i++) {
             for (int j = 0; j < row; j++) {
                 board[i][j] = new Cell();
                 if (i == 0 || j == 0 || i == col - 1 || j == row - 1) {
                     board[i][j].setWall(true);
+                } else {
+                    int newCol = i;
+                    int newRow = j;
+                    if (newCol > 1) {
+                        proxiBoard[newCol][newRow][newCol - 1][newRow] = true;
+                    }
+                    if (newCol < 9) {
+                        proxiBoard[newCol][newRow][newCol + 1][newRow] = true;
+                    }
+                    if (newRow > 1) {
+                        proxiBoard[newCol][newRow][newCol][newRow - 1] = true;
+                    }
+                    if (newRow < 9) {
+                        proxiBoard[newCol][newRow][newCol][newRow + 1] = true;
+                    }
                 }
             }
         }
-        monster = true;
-        player = true;
+        monsterAlive = true;
+        playerAlive = true;
         cheminPasTropOpti = "";
         for (int i = 0; i < (col * row); i++) {
             cheminPasTropOpti += "oo ";
@@ -52,20 +70,40 @@ public class Board {
         return board[0][0];
     }
 
-    public boolean getMonster() {
-        return monster;
+    public boolean getMonsterAlive() {
+        return monsterAlive;
     }
 
-    public boolean getPlayer() {
-        return player;
+    public boolean getPlayerAlive() {
+        return playerAlive;
     }
 
     public String getCheminPasTropOpti() {
         return cheminPasTropOpti;
     }
 
+    public String getCheminOpti() {
+        return cheminOpti;
+    }
+
+    public void getProxi(int x, int y) {
+
+        if (proxiBoard[x][y][x - 1][y]) {
+            System.out.print("[" + (x - 1) + "," + y + "] ");
+        }
+        if (proxiBoard[x][y][x + 1][y]) {
+            System.out.print("[" + (x + 1) + "," + y + "] ");
+        }
+        if (proxiBoard[x][y][x][y - 1]) {
+            System.out.print("[" + x + "," + (y - 1) + "] ");
+        }
+        if (proxiBoard[x][y][x][y + 1]) {
+            System.out.print("[" + x + "," + (y + 1) + "] ");
+        }
+    }
+
     public void setMonster(boolean b) {
-        monster = b;
+        monsterAlive = b;
     }
 
     public void setBoard() {
@@ -74,7 +112,7 @@ public class Board {
     }
 
     public void setPlayer(boolean b) {
-        player = b;
+        playerAlive = b;
     }
 
     public void showBoard() {
@@ -207,5 +245,9 @@ public class Board {
                 cheminPasTropOpti(i, j + 1, Direction.E, mem, t);
             }
         }
+    }
+
+    public void cheminOpti(int i, int j) {
+
     }
 }
