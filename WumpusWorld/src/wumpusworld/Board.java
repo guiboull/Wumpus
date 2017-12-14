@@ -7,7 +7,7 @@ public class Board {
     protected int row;
     protected boolean monster;
     protected boolean player;
-    protected String cheminOpti;
+    protected String cheminPasTropOpti;
 
     public Board(int x, int y) {
         col = x + 2;
@@ -24,9 +24,9 @@ public class Board {
         }
         monster = true;
         player = true;
-        cheminOpti = "";
+        cheminPasTropOpti = "";
         for (int i = 0; i < (col * row); i++) {
-            cheminOpti += "oo ";
+            cheminPasTropOpti += "oo ";
         }
     }
 
@@ -60,8 +60,8 @@ public class Board {
         return player;
     }
 
-    public String getCheminOpti() {
-        return cheminOpti;
+    public String getCheminPasTropOpti() {
+        return cheminPasTropOpti;
     }
 
     public void setMonster(boolean b) {
@@ -178,13 +178,13 @@ public class Board {
         }
     }
 
-    public void cheminOpti(int i, int j, Direction dir, String mem, int t) {
+    public void cheminPasTropOpti(int i, int j, Direction dir, String mem, int t) {
         if (board[i][j].getGold()) {
             mem += i;
             mem += j;
             mem += " ";
-            if (mem.length() < cheminOpti.length()) {
-                cheminOpti = mem;
+            if (mem.length() < cheminPasTropOpti.length()) {
+                cheminPasTropOpti = mem;
             }
         } else if (t == 0) {
             //mem += "Chemin mort";
@@ -195,16 +195,16 @@ public class Board {
             mem += " ";
             t -= 1;
             if (dir != Direction.N && getCell(i, j, Direction.S).isSafe()) {
-                cheminOpti(i + 1, j, Direction.S, mem, t);
+                cheminPasTropOpti(i + 1, j, Direction.S, mem, t);
             }
             if (dir != Direction.S && getCell(i, j, Direction.N).isSafe()) {
-                cheminOpti(i - 1, j, Direction.N, mem, t);
+                cheminPasTropOpti(i - 1, j, Direction.N, mem, t);
             }
             if (dir != Direction.E && getCell(i, j, Direction.W).isSafe()) {
-                cheminOpti(i, j - 1, Direction.W, mem, t);
+                cheminPasTropOpti(i, j - 1, Direction.W, mem, t);
             }
             if (dir != Direction.W && getCell(i, j, Direction.E).isSafe()) {
-                cheminOpti(i, j + 1, Direction.E, mem, t);
+                cheminPasTropOpti(i, j + 1, Direction.E, mem, t);
             }
         }
     }
