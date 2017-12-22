@@ -6,6 +6,8 @@ public class Board {
     protected boolean proxiBoard[][][][];
     protected int col;
     protected int row;
+    protected int colGold;
+    protected int rowGold;
     protected boolean monsterAlive;
     protected boolean playerAlive;
     protected String cheminOpti;
@@ -27,15 +29,19 @@ public class Board {
                     int newRow = j;
                     if (newCol > 1) {
                         proxiBoard[newCol][newRow][newCol - 1][newRow] = true;
+                        proxiBoard[newCol - 1][newRow][newCol][newRow] = true;
                     }
-                    if (newCol < 9) {
+                    if (newCol < col - 2) {
                         proxiBoard[newCol][newRow][newCol + 1][newRow] = true;
+                        proxiBoard[newCol + 1][newRow][newCol][newRow] = true;
                     }
                     if (newRow > 1) {
                         proxiBoard[newCol][newRow][newCol][newRow - 1] = true;
+                        proxiBoard[newCol][newRow - 1][newCol][newRow] = true;
                     }
-                    if (newRow < 9) {
+                    if (newRow < row - 2) {
                         proxiBoard[newCol][newRow][newCol][newRow + 1] = true;
+                        proxiBoard[newCol][newRow + 1][newCol][newRow] = true;
                     }
                 }
             }
@@ -177,11 +183,22 @@ public class Board {
             j = (int) (Math.random() * (row - 2)) + 1;
             if (board[i][j].getPlayer() == false) {
                 board[i][j].setMonster(true);
+
+                proxiBoard[i][j][i - 1][j] = false;
+                proxiBoard[i][j][i + 1][j] = false;
+                proxiBoard[i][j][i][j + 1] = false;
+                proxiBoard[i][j][i][j - 1] = false;
+                proxiBoard[i - 1][j][i][j] = false;
+                proxiBoard[i + 1][j][i][j] = false;
+                proxiBoard[i][j + 1][i][j] = false;
+                proxiBoard[i][j - 1][i][j] = false;
+
                 board[i][j].setSmell(true);
                 board[i + 1][j].setSmell(true);
                 board[i - 1][j].setSmell(true);
                 board[i][j + 1].setSmell(true);
                 board[i][j - 1].setSmell(true);
+
                 ok = true;
             }
         }
@@ -192,6 +209,8 @@ public class Board {
                     - 2)) + 1;
             if (board[i][j].getPlayer() == false && board[i][j].getMonster() == false) {
                 board[i][j].setGold(true);
+                colGold = i;
+                rowGold = j;
                 ok = true;
             }
         }
@@ -203,6 +222,16 @@ public class Board {
                 j = (int) (Math.random() * (row - 2)) + 1;
                 if (board[i][j].getPlayer() == false && board[i][j].getMonster() == false && board[i][j].getHole() == false && board[i][j].getGold() == false) {
                     board[i][j].setHole(true);
+
+                    proxiBoard[i][j][i - 1][j] = false;
+                    proxiBoard[i][j][i + 1][j] = false;
+                    proxiBoard[i][j][i][j + 1] = false;
+                    proxiBoard[i][j][i][j - 1] = false;
+                    proxiBoard[i - 1][j][i][j] = false;
+                    proxiBoard[i + 1][j][i][j] = false;
+                    proxiBoard[i][j + 1][i][j] = false;
+                    proxiBoard[i][j - 1][i][j] = false;
+
                     board[i + 1][j].setWind(true);
                     board[i - 1][j].setWind(true);
                     board[i][j + 1].setWind(true);
