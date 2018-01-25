@@ -13,20 +13,20 @@ public class Board {
     protected String cheminOpti;
     protected String cheminPasTropOpti;
 
-    public Board(int x, int y) {
-        col = x + 2;
-        row = y + 2;
+    public Board(int Col, int Row) {
+        col = Col + 2;
+        row = Row + 2;
         board = new Cell[col][row];
         proxiBoard = new boolean[col][row][col][row];
 
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                board[i][j] = new Cell();
-                if (i == 0 || j == 0 || i == col - 1 || j == row - 1) {
-                    board[i][j].setWall(true);
+        for (int countCol = 0; countCol < col; countCol++) {
+            for (int countRow = 0; countRow < row; countRow++) {
+                board[countCol][countRow] = new Cell();
+                if (countCol == 0 || countRow == 0 || countCol == col - 1 || countRow == row - 1) {
+                    board[countCol][countRow].setWall(true);
                 } else {
-                    int newCol = i;
-                    int newRow = j;
+                    int newCol = countCol;
+                    int newRow = countRow;
                     if (newCol > 1) {
                         proxiBoard[newCol][newRow][newCol - 1][newRow] = true;
                         proxiBoard[newCol - 1][newRow][newCol][newRow] = true;
@@ -49,7 +49,7 @@ public class Board {
         monsterAlive = true;
         playerAlive = true;
         cheminPasTropOpti = "";
-        for (int i = 0; i < (col * row); i++) {
+        for(int countCol = 0; countCol < (col * row); countCol++) {
             cheminPasTropOpti += "oo ";
         }
     }
@@ -58,20 +58,20 @@ public class Board {
         return board;
     }
 
-    public Cell getCell(int col, int y) {
+    public Cell getCell(int col, int row) {
         return board[col][row];
     }
 
-    public Cell getCell(int i, int j, Direction dir) {
+    public Cell getCell(int countCol, int countRow, Direction dir) {
         switch (dir) {
             case N:
-                return board[i - 1][j];
+                return board[countCol - 1][countRow];
             case S:
-                return board[i + 1][j];
+                return board[countCol + 1][countRow];
             case E:
-                return board[i][j + 1];
+                return board[countCol][countRow + 1];
             case W:
-                return board[i][j - 1];
+                return board[countCol][countRow - 1];
         }
         return board[0][0];
     }
@@ -92,19 +92,19 @@ public class Board {
         return cheminOpti;
     }
 
-    public void getProxi(int x, int y) {
+    public void getProxi(int countCol, int countRow) {
 
-        if (proxiBoard[x][y][x - 1][y]) {
-            System.out.print("[" + (x - 1) + "," + y + "] ");
+        if (proxiBoard[countCol][countRow][countCol - 1][countRow]) {
+            System.out.print("[" + (countCol - 1) + "," + countRow + "] ");
         }
-        if (proxiBoard[x][y][x + 1][y]) {
-            System.out.print("[" + (x + 1) + "," + y + "] ");
+        if (proxiBoard[countCol][countRow][countCol + 1][countRow]) {
+            System.out.print("[" + (countCol + 1) + "," + countRow + "] ");
         }
-        if (proxiBoard[x][y][x][y - 1]) {
-            System.out.print("[" + x + "," + (y - 1) + "] ");
+        if (proxiBoard[countCol][countRow][countCol][countRow - 1]) {
+            System.out.print("[" + countCol + "," + (countRow - 1) + "] ");
         }
-        if (proxiBoard[x][y][x][y + 1]) {
-            System.out.print("[" + x + "," + (y + 1) + "] ");
+        if (proxiBoard[countCol][countRow][countCol][countRow + 1]) {
+            System.out.print("[" + countCol + "," + (countRow + 1) + "] ");
         }
     }
 
@@ -122,17 +122,17 @@ public class Board {
     }
 
     public void showBoard() {
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                if (board[i][j].getWall() == true) {
+        for (int countCol = 0; countCol < col; countCol++) {
+            for (int countRow = 0; countRow < row; countRow++) {
+                if (board[countCol][countRow].getWall() == true) {
                     System.out.print("x ");
-                } else if (board[i][j].getHole() == true) {
+                } else if (board[countCol][countRow].getHole() == true) {
                     System.out.print("o ");
-                } else if (board[i][j].getMonster() == true) {
+                } else if (board[countCol][countRow].getMonster() == true) {
                     System.out.print("m ");
-                } else if (board[i][j].getPlayer() == true) {
+                } else if (board[countCol][countRow].getPlayer() == true) {
                     System.out.print("p ");
-                } else if (board[i][j].getGold() == true) {
+                } else if (board[countCol][countRow].getGold() == true) {
                     System.out.print("g ");
                 } else {
                     System.out.print("  ");
@@ -143,13 +143,13 @@ public class Board {
     }
 
     public void showBoard2() {
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                if (board[i][j].getWind() == true) {
+        for (int countCol = 0; countCol < col; countCol++) {
+            for (int countRow = 0; countRow < row; countRow++) {
+                if (board[countCol][countRow].getWind() == true) {
                     System.out.print("w ");
-                } else if (board[i][j].getSmell() == true) {
+                } else if (board[countCol][countRow].getSmell() == true) {
                     System.out.print("s ");
-                } else if (board[i][j].getWall() == true) {
+                } else if (board[countCol][countRow].getWall() == true) {
                     System.out.print("x ");
                 } else {
                     System.out.print("  ");
@@ -160,12 +160,12 @@ public class Board {
     }
 
     public void showBoard3() {
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                if (board[i][j].getWall() == true) {
+        for (int countCol = 0; countCol < col; countCol++) {
+            for (int countRow = 0; countRow < row; countRow++) {
+                if (board[countCol][countRow].getWall() == true) {
                     System.out.print("x  ");
                 } else {
-                    System.out.print(i + "" + j + " ");
+                    System.out.print(countCol + "" + countRow + " ");
                 }
             }
             System.out.println();
@@ -174,43 +174,43 @@ public class Board {
 
     public void setBoard(int holes) {
         boolean ok = false;
-        int i;
-        int j;
+        int countCol;
+        int countRow;
         board[col - 2][1].setPlayer(true);
 
         while (ok == false) {
-            i = (int) (Math.random() * (col - 2)) + 1;
-            j = (int) (Math.random() * (row - 2)) + 1;
-            if (board[i][j].getPlayer() == false) {
-                board[i][j].setMonster(true);
+            countCol = (int) (Math.random() * (col - 2)) + 1;
+            countRow = (int) (Math.random() * (row - 2)) + 1;
+            if (board[countCol][countRow].getPlayer() == false) {
+                board[countCol][countRow].setMonster(true);
 
-                proxiBoard[i][j][i - 1][j] = false;
-                proxiBoard[i][j][i + 1][j] = false;
-                proxiBoard[i][j][i][j + 1] = false;
-                proxiBoard[i][j][i][j - 1] = false;
-                proxiBoard[i - 1][j][i][j] = false;
-                proxiBoard[i + 1][j][i][j] = false;
-                proxiBoard[i][j + 1][i][j] = false;
-                proxiBoard[i][j - 1][i][j] = false;
+                proxiBoard[countCol][countRow][countCol - 1][countRow] = false;
+                proxiBoard[countCol][countRow][countCol + 1][countRow] = false;
+                proxiBoard[countCol][countRow][countCol][countRow + 1] = false;
+                proxiBoard[countCol][countRow][countCol][countRow - 1] = false;
+                proxiBoard[countCol - 1][countRow][countCol][countRow] = false;
+                proxiBoard[countCol + 1][countRow][countCol][countRow] = false;
+                proxiBoard[countCol][countRow + 1][countCol][countRow] = false;
+                proxiBoard[countCol][countRow - 1][countCol][countRow] = false;
 
-                board[i][j].setSmell(true);
-                board[i + 1][j].setSmell(true);
-                board[i - 1][j].setSmell(true);
-                board[i][j + 1].setSmell(true);
-                board[i][j - 1].setSmell(true);
+                board[countCol][countRow].setSmell(true);
+                board[countCol + 1][countRow].setSmell(true);
+                board[countCol - 1][countRow].setSmell(true);
+                board[countCol][countRow + 1].setSmell(true);
+                board[countCol][countRow - 1].setSmell(true);
 
                 ok = true;
             }
         }
         ok = false;
         while (ok == false) {
-            i = (int) (Math.random() * (col - 2)) + 1;
-            j = (int) (Math.random() * (row
+            countCol = (int) (Math.random() * (col - 2)) + 1;
+            countRow = (int) (Math.random() * (row
                     - 2)) + 1;
-            if (board[i][j].getPlayer() == false && board[i][j].getMonster() == false) {
-                board[i][j].setGold(true);
-                colGold = i;
-                rowGold = j;
+            if (board[countCol][countRow].getPlayer() == false && board[countCol][countRow].getMonster() == false) {
+                board[countCol][countRow].setGold(true);
+                colGold = countCol;
+                rowGold = countRow;
                 ok = true;
             }
         }
@@ -218,24 +218,24 @@ public class Board {
 
         for (int it = 0; it < holes; it++) {
             while (ok == false) {
-                i = (int) (Math.random() * (col - 2)) + 1;
-                j = (int) (Math.random() * (row - 2)) + 1;
-                if (board[i][j].getPlayer() == false && board[i][j].getMonster() == false && board[i][j].getHole() == false && board[i][j].getGold() == false) {
-                    board[i][j].setHole(true);
+                countCol = (int) (Math.random() * (col - 2)) + 1;
+                countRow = (int) (Math.random() * (row - 2)) + 1;
+                if (board[countCol][countRow].getPlayer() == false && board[countCol][countRow].getMonster() == false && board[countCol][countRow].getHole() == false && board[countCol][countRow].getGold() == false) {
+                    board[countCol][countRow].setHole(true);
 
-                    proxiBoard[i][j][i - 1][j] = false;
-                    proxiBoard[i][j][i + 1][j] = false;
-                    proxiBoard[i][j][i][j + 1] = false;
-                    proxiBoard[i][j][i][j - 1] = false;
-                    proxiBoard[i - 1][j][i][j] = false;
-                    proxiBoard[i + 1][j][i][j] = false;
-                    proxiBoard[i][j + 1][i][j] = false;
-                    proxiBoard[i][j - 1][i][j] = false;
+                    proxiBoard[countCol][countRow][countCol - 1][countRow] = false;
+                    proxiBoard[countCol][countRow][countCol + 1][countRow] = false;
+                    proxiBoard[countCol][countRow][countCol][countRow + 1] = false;
+                    proxiBoard[countCol][countRow][countCol][countRow - 1] = false;
+                    proxiBoard[countCol - 1][countRow][countCol][countRow] = false;
+                    proxiBoard[countCol + 1][countRow][countCol][countRow] = false;
+                    proxiBoard[countCol][countRow + 1][countCol][countRow] = false;
+                    proxiBoard[countCol][countRow - 1][countCol][countRow] = false;
 
-                    board[i + 1][j].setWind(true);
-                    board[i - 1][j].setWind(true);
-                    board[i][j + 1].setWind(true);
-                    board[i][j - 1].setWind(true);
+                    board[countCol + 1][countRow].setWind(true);
+                    board[countCol - 1][countRow].setWind(true);
+                    board[countCol][countRow + 1].setWind(true);
+                    board[countCol][countRow - 1].setWind(true);
                     ok = true;
                 } else {
                     System.out.println("RATE");
@@ -245,10 +245,10 @@ public class Board {
         }
     }
 
-    public void cheminPasTropOpti(int i, int j, Direction dir, String mem, int t) {
-        if (board[i][j].getGold()) {
-            mem += i;
-            mem += j;
+    public void cheminPasTropOpti(int countCol, int countRow, Direction dir, String mem, int t) {
+        if (board[countCol][countRow].getGold()) {
+            mem += countCol;
+            mem += countRow;
             mem += " ";
             if (mem.length() < cheminPasTropOpti.length()) {
                 cheminPasTropOpti = mem;
@@ -257,26 +257,26 @@ public class Board {
             //mem += "Chemin mort";
             //System.out.println(mem);
         } else {
-            mem += i;
-            mem += j;
+            mem += countCol;
+            mem += countRow;
             mem += " ";
             t -= 1;
-            if (dir != Direction.N && getCell(i, j, Direction.S).isSafe()) {
-                cheminPasTropOpti(i + 1, j, Direction.S, mem, t);
+            if (dir != Direction.N && getCell(countCol, countRow, Direction.S).isSafe()) {
+                cheminPasTropOpti(countCol + 1, countRow, Direction.S, mem, t);
             }
-            if (dir != Direction.S && getCell(i, j, Direction.N).isSafe()) {
-                cheminPasTropOpti(i - 1, j, Direction.N, mem, t);
+            if (dir != Direction.S && getCell(countCol, countRow, Direction.N).isSafe()) {
+                cheminPasTropOpti(countCol - 1, countRow, Direction.N, mem, t);
             }
-            if (dir != Direction.E && getCell(i, j, Direction.W).isSafe()) {
-                cheminPasTropOpti(i, j - 1, Direction.W, mem, t);
+            if (dir != Direction.E && getCell(countCol, countRow, Direction.W).isSafe()) {
+                cheminPasTropOpti(countCol, countRow - 1, Direction.W, mem, t);
             }
-            if (dir != Direction.W && getCell(i, j, Direction.E).isSafe()) {
-                cheminPasTropOpti(i, j + 1, Direction.E, mem, t);
+            if (dir != Direction.W && getCell(countCol, countRow, Direction.E).isSafe()) {
+                cheminPasTropOpti(countCol, countRow + 1, Direction.E, mem, t);
             }
         }
     }
 
-    public void cheminOpti(int i, int j) {
+    public void cheminOpti(int countCol, int countRow) {
 
     }
 }
