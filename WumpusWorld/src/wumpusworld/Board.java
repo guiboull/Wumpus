@@ -18,6 +18,9 @@ public class Board {
         row = Row + 2;
         board = new Cell[col][row];
         proxiBoard = new boolean[col][row][col][row];
+        
+        
+        
 
         for (int countCol = 0; countCol < col; countCol++) {
             for (int countRow = 0; countRow < row; countRow++) {
