@@ -87,7 +87,7 @@ public class Kevin {
         int nbTry = 0;
         while (!gotMove && nbTry < 4){
             nbTry++;
-            int randomNum = ThreadLocalRandom.current().nextInt(0, liste.size() + 1);
+            int randomNum = liste.get(ThreadLocalRandom.current().nextInt(0, liste.size()));
             switch ( randomNum ){
                 case 1:
                     gotMove = tryAbsPl(move);
@@ -116,7 +116,7 @@ public class Kevin {
         nbTry = 0;
         while(!gotMove && nbTry < 4){
             nbTry++;
-            int randomNum = ThreadLocalRandom.current().nextInt(0, liste.size() + 1);
+            int randomNum = liste.get(ThreadLocalRandom.current().nextInt(0, liste.size() ));
             switch ( randomNum ){
                 case 1:
                     gotMove = tryAbsPlSafe(move);
