@@ -13,14 +13,15 @@ public class Board {
     protected String cheminOpti;
     protected String cheminPasTropOpti;
 
+    protected Kevin kevin;
+    protected int kevinX;
+    protected int kevinY;
+
     public Board(int Col, int Row) {
         col = Col + 2;
         row = Row + 2;
         board = new Cell[col][row];
         proxiBoard = new boolean[col][row][col][row];
-        
-        
-        
 
         for (int countCol = 0; countCol < col; countCol++) {
             for (int countRow = 0; countRow < row; countRow++) {
@@ -52,7 +53,7 @@ public class Board {
         monsterAlive = true;
         playerAlive = true;
         cheminPasTropOpti = "";
-        for(int countCol = 0; countCol < (col * row); countCol++) {
+        for (int countCol = 0; countCol < (col * row); countCol++) {
             cheminPasTropOpti += "oo ";
         }
     }
@@ -115,11 +116,6 @@ public class Board {
         monsterAlive = b;
     }
 
-    public void setBoard() {
-        board[1][9].setPlayer(true);
-        board[5][9].setGold(true);
-    }
-
     public void setPlayer(boolean b) {
         playerAlive = b;
     }
@@ -175,11 +171,25 @@ public class Board {
         }
     }
 
+    public void moveKevin(int x, int y) {
+        // maj des cells du board
+        board[kevinY][kevinX].hasKevin = false;
+        board[kevinY - y][kevinX + x].hasKevin = true;
+        kevinX = kevinX + x;
+        kevinY = kevinY - y;
+        // maj des variables de kevin
+        kevin.currentCell = board[kevinY][kevinX];
+    }
+
     public void setBoard(int holes) {
         boolean ok = false;
         int countCol;
         int countRow;
-        board[col - 2][1].setPlayer(true);
+        kevinX = 1;
+        kevinY = col - 2;
+        board[kevinY][kevinX].setPlayer(true);
+        kevin = new Kevin();
+        kevin.currentCell = board[kevinX][kevinY];
 
         while (ok == false) {
             countCol = (int) (Math.random() * (col - 2)) + 1;

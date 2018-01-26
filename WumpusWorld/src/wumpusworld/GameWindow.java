@@ -12,12 +12,14 @@ import javax.swing.border.EmptyBorder;
 
 public class GameWindow {
 
+    private JButton[][] buttonGrid ;
+    
     public GameWindow(Board mBoard) {
         int windowSize = 800;
-        JButton[][] buttonGrid = new JButton[mBoard.col][mBoard.row];
+        buttonGrid = new JButton[mBoard.col][mBoard.row];
         JFrame window = new JFrame();
         window.setTitle("Le monde de Wumpus");
-        window.setSize(windowSize, windowSize);
+        window.setSize(1200, windowSize);
         window.setLayout(new BorderLayout());
         //Generate Grid Panel
         JPanel gridPanel = new JPanel();
@@ -133,6 +135,38 @@ public class GameWindow {
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
+    }
+    
+    
+    public void refreshBoard(Board board){
+         // start filling grid
+        for (int row = 0; row < buttonGrid.length; row++) {
+            for (int col = 0; col < buttonGrid[row].length; col++) {
+                String cellLabel = "";
+                if (board.getBoard()[row][col].getPlayer() == true) {
+                    cellLabel += "KEVIN \n";
+                }
+                if (board.getBoard()[row][col].getWall() == true) {
+                    cellLabel += "WALL \n";
+                }
+                if (board.getBoard()[row][col].getHole() == true) {
+                    cellLabel += "HOLE \n";
+                }
+                if (board.getBoard()[row][col].getMonster() == true) {
+                    cellLabel += "MONSTER \n";
+                }
+                if (board.getBoard()[row][col].getGold() == true) {
+                    cellLabel += "GOLD \n";
+                }
+                if (board.getBoard()[row][col].getSmell() == true) {
+                    cellLabel += "SMELL \n";
+                }
+                if (board.getBoard()[row][col].getWind() == true) {
+                    cellLabel += "WIND \n";
+                }
+                buttonGrid[row][col].setText(cellLabel);
+            }
+        }
     }
 
 }

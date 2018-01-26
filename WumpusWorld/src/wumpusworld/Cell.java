@@ -4,13 +4,13 @@ public class Cell {
 
     protected boolean smell;
     protected boolean wind;
-    
+
     protected boolean monster;
     protected boolean gold;
     protected boolean hole;
     protected boolean wall;
-    protected boolean player;
-    
+    protected boolean hasKevin;
+
     public Cell() {
         smell = false;
         wind = false;
@@ -18,7 +18,7 @@ public class Cell {
         gold = false;
         hole = false;
         wall = false;
-        player = false;
+        hasKevin = false;
     }
 
     public boolean getSmell() {
@@ -46,7 +46,7 @@ public class Cell {
     }
 
     public boolean getPlayer() {
-        return player;
+        return hasKevin;
     }
 
     public void setSmell(boolean b) {
@@ -74,16 +74,26 @@ public class Cell {
     }
 
     public void setPlayer(boolean b) {
-        player = b;
+        hasKevin = b;
     }
 
     public boolean isSafe() {
         if (getHole() || getWall() || getMonster()) {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
-}
 
+    public boolean isEmpty() {
+        if (getSmell() || getWind() || getGold()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean isWall() {
+        return getWall();
+    }
+}
