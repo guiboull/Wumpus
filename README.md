@@ -4,7 +4,7 @@
 	
 Le	monde	de	Wumpus	est	une	caverne	composée	de	salles	reliées	par	des	corridors.	Dans	cette	caverne,	se	cache	le	terrible	Wumpus,	monstre	qui	dévore	quiconque	entre	dans	son	repaire,	et	également	un	trésor.	Le	but	de	votre	intelligence	artificielle,	ou	agent,	est	de	trouver	un	chemin	dans	une	caverne	pour	récupérer	l’or	sans	mourir.	
 
-          # La caverne	et l’agent	
+          # La caverne et l’agent	
 	
 Une	caverne	est	générée	aléatoirement	comme	une	matrice	dont	le	nombre	de	lignes	et	le	nombres	de	colonnes	doivent	être	au	minimum	de	quatre.	Chaque	case	peut	:	
 • Etre	vide	;	
