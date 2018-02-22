@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/tancrede/Documents/Epsi/IA/wumpus/WumpusWorld/src/wumpusworld/Direction.java</file>
-            <file>file:/D:/tancrede/Documents/Epsi/IA/wumpus/WumpusWorld/src/wumpusworld/Board.java</file>
-            <file>file:/D:/tancrede/Documents/Epsi/IA/wumpus/WumpusWorld/src/wumpusworld/WumpusWorld.java</file>
-            <file>file:/D:/tancrede/Documents/Epsi/IA/wumpus/WumpusWorld/src/wumpusworld/Kevin.java</file>
-            <file>file:/D:/tancrede/Documents/Epsi/IA/wumpus/WumpusWorld/src/wumpusworld/GameWindow.java</file>
-            <file>file:/D:/tancrede/Documents/Epsi/IA/wumpus/WumpusWorld/src/wumpusworld/Cell.java</file>
+            <file>file:/C:/Dev_EPSI/NetBeansProjects/Wumpus/Wumpus/WumpusWorld/src/wumpusworld/Graph.java</file>
+            <file>file:/C:/Dev_EPSI/NetBeansProjects/Wumpus/Wumpus/WumpusWorld/src/wumpusworld/ShortestPath.java</file>
+            <file>file:/C:/Dev_EPSI/NetBeansProjects/Wumpus/Wumpus/WumpusWorld/src/wumpusworld/GameWindow.java</file>
+            <file>file:/C:/Dev_EPSI/NetBeansProjects/Wumpus/Wumpus/WumpusWorld/src/wumpusworld/Node.java</file>
+            <file>file:/C:/Dev_EPSI/NetBeansProjects/Wumpus/Wumpus/WumpusWorld/src/wumpusworld/Duo.java</file>
+            <file>file:/C:/Dev_EPSI/NetBeansProjects/Wumpus/Wumpus/WumpusWorld/src/wumpusworld/Board.java</file>
+            <file>file:/C:/Dev_EPSI/NetBeansProjects/Wumpus/Wumpus/WumpusWorld/src/wumpusworld/WumpusWorld.java</file>
         </group>
     </open-files>
 </project-private>
