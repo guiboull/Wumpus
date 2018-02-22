@@ -1,8 +1,11 @@
 package wumpusworld;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,16 +27,15 @@ public class GameWindow {
     private ImageIcon kevinInMonsterImg;
     private ImageIcon monsterImg;
     private ImageIcon rockImg;
-    private int windowSize;
-    private Board currentBoard;
+
 
     public GameWindow(Board mBoard) {
-        windowSize = 800;
+        int windowSize = 900/11*mBoard.col;
         buttonGrid = new JButton[mBoard.col][mBoard.row];
-        currentBoard = mBoard;
         JFrame window = new JFrame();
+        window.setResizable(true);
         window.setTitle("Le monde de Wumpus");
-        window.setSize(1200, windowSize);
+        window.setSize((900/11*mBoard.col)+200, windowSize);
         window.setLayout(new BorderLayout());
         //Generate Grid Panel
         JPanel gridPanel = new JPanel();
@@ -136,11 +138,11 @@ public class GameWindow {
                 if (mBoard.getBoard()[row][col].getWall() == true) {
                     image = rockImg;
                 }
-                if (mBoard.getBoard()[row][col].getHole() == true) {       
+                if (mBoard.getBoard()[row][col].getHole() == true) {
                     image = fireImg;
                 }
                 if (mBoard.getBoard()[row][col].getMonster() == true) {
-                   image = monsterImg;
+                    image = monsterImg;
                 }
                 if (mBoard.getBoard()[row][col].getPlayer() == true) {
                     image = kevinImg;
@@ -149,16 +151,20 @@ public class GameWindow {
                     image = goldImg;
                 }
                 if (mBoard.getBoard()[row][col].getSmell() == true) {
-                    
+
                 }
                 if (mBoard.getBoard()[row][col].getWind() == true) {
-                    
+
                 }
                 buttonGrid[row][col] = new JButton();
                 buttonGrid[row][col].setEnabled(false);
-                image.getImage().getScaledInstance( windowSize/currentBoard.col, windowSize/currentBoard.col, Image.SCALE_DEFAULT);
-                buttonGrid[row][col].setIcon(image);
-                buttonGrid[row][col].setDisabledIcon(image);
+                int scale = 2 ;
+                int width = image.getIconWidth();
+                int newWidth = width / scale;
+                buttonGrid[row][col].setIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1,java.awt.Image.SCALE_SMOOTH)));
+                buttonGrid[row][col].setDisabledIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1,java.awt.Image.SCALE_SMOOTH)));
+                buttonGrid[row][col].setMargin(new Insets(0, 0, 0, 0));
+                buttonGrid[row][col].setBorder(BorderFactory.createEmptyBorder());
                 gridPanel.add(buttonGrid[row][col]);
             }
         }
@@ -176,28 +182,26 @@ public class GameWindow {
 
                 if (board.getBoard()[row][col].getPlayer() == true) {
                     image = kevinImg;
-                }
-                else if (board.getBoard()[row][col].getWall() == true) {
+                } else if (board.getBoard()[row][col].getWall() == true) {
                     image = rockImg;
-                }
-                else if (board.getBoard()[row][col].getHole() == true) {
+                } else if (board.getBoard()[row][col].getHole() == true) {
                     image = fireImg;
-                }
-                else if (board.getBoard()[row][col].getMonster() == true) {
+                } else if (board.getBoard()[row][col].getMonster() == true) {
                     image = monsterImg;
-                }
-                else if (board.getBoard()[row][col].getGold() == true) {
+                } else if (board.getBoard()[row][col].getGold() == true) {
                     image = goldImg;
+                } else if (board.getBoard()[row][col].getSmell() == true) {
+
+                } else if (board.getBoard()[row][col].getWind() == true) {
+
                 }
-                else if (board.getBoard()[row][col].getSmell() == true) {
-                 
-                }
-                else if (board.getBoard()[row][col].getWind() == true) {
-                   
-                } 
-                image.getImage().getScaledInstance( windowSize/currentBoard.col, windowSize/currentBoard.col, Image.SCALE_DEFAULT);
-                buttonGrid[row][col].setIcon(image);
-                buttonGrid[row][col].setDisabledIcon(image);
+                int scale = 2;
+                int width = image.getIconWidth();
+                int newWidth = width / scale;
+                buttonGrid[row][col].setIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1,java.awt.Image.SCALE_SMOOTH)));
+                buttonGrid[row][col].setDisabledIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1,java.awt.Image.SCALE_SMOOTH)));
+                buttonGrid[row][col].setMargin(new Insets(0, 0, 0, 0));
+                buttonGrid[row][col].setBorder(BorderFactory.createEmptyBorder());
             }
         }
     }
