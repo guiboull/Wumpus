@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public class WumpusWorld {
 
-    private static final int numberOfCells = 9;
+    private static final int numberOfCells = 5;
 
     public static void main(String[] args) throws InterruptedException {
         // TODO code application logic here

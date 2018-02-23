@@ -12,6 +12,7 @@ public class Board {
     protected boolean playerAlive;
     protected String cheminOpti;
     protected String cheminPasTropOpti;
+    protected int typeAffichage;
 
     protected Kevin kevin;
     protected int kevinX;
@@ -22,6 +23,7 @@ public class Board {
         row = Row + 2;
         board = new Cell[col][row];
         proxiBoard = new boolean[col][row][col][row];
+        typeAffichage = 2;
 
         for (int countCol = 0; countCol < col; countCol++) {
             for (int countRow = 0; countRow < row; countRow++) {

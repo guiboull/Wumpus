@@ -27,7 +27,29 @@ public class GameWindow {
     private ImageIcon kevinInMonsterImg;
     private ImageIcon monsterImg;
     private ImageIcon rockImg;
-
+    private ImageIcon heatFireImg;
+    private ImageIcon heatGoldImg;
+    private ImageIcon heatGroundImg;
+    private ImageIcon heatKevinImg;
+    private ImageIcon heatKevinInFireImg;
+    private ImageIcon heatKevinInGoldImg;
+    private ImageIcon heatKevinInMonsterImg;
+    private ImageIcon smellFireImg;
+    private ImageIcon smellGoldImg;
+    private ImageIcon smellGroundImg;
+    private ImageIcon smellKevinImg;
+    private ImageIcon smellKevinInFireImg;
+    private ImageIcon smellKevinInGoldImg;
+    private ImageIcon smellKevinInMonsterImg;
+    private ImageIcon smellMonsterImg;
+    private ImageIcon smellHeatFireImg;
+    private ImageIcon smellHeatGoldImg;
+    private ImageIcon smellHeatGroundImg;
+    private ImageIcon smellHeatKevinImg;
+    private ImageIcon smellHeatKevinInFireImg;
+    private ImageIcon smellHeatKevinInGoldImg;
+    private ImageIcon smellHeatKevinInMonsterImg;   
+    private ImageIcon smellHeatMonsterImg;
 
     public GameWindow(Board mBoard) {
         int windowSize = 900/11*mBoard.col;
@@ -129,33 +151,128 @@ public class GameWindow {
         kevinInMonsterImg = new ImageIcon("images/kevininmonster.jpg");
         monsterImg = new ImageIcon("images/monster.jpg");
         rockImg = new ImageIcon("images/rock.jpg");
-
+        
+        heatFireImg = new ImageIcon("images/heat/heatfire.jpg");
+        heatGoldImg = new ImageIcon("images/heat/heatgold.jpg");
+        heatGroundImg = new ImageIcon("images/heat/heatground.jpg");
+        heatKevinImg = new ImageIcon("images/heat/heatkevin.jpg");
+        heatKevinInFireImg = new ImageIcon("images/heat/heatkevininfire.jpg");
+        heatKevinInMonsterImg = new ImageIcon("images/heat/heatkevininmonster.jpg");     
+        heatKevinInGoldImg = new ImageIcon("images/heat/heatkevininmonster.jpg");
+        
+        smellFireImg = new ImageIcon("images/smell/smellfire.jpg");
+        smellGoldImg = new ImageIcon("images/smell/smellgold.jpg");
+        smellGroundImg = new ImageIcon("images/smell/smellground.jpg");
+        smellKevinImg = new ImageIcon("images/smell/smellkevin.jpg");
+        smellKevinInFireImg = new ImageIcon("images/smell/smellkevininfire.jpg");
+        smellKevinInGoldImg = new ImageIcon("images/smell/smellkeviningold.jpg");
+        smellKevinInMonsterImg = new ImageIcon("images/smell/smellkevininmonster.jpg");
+        smellMonsterImg = new ImageIcon("images/smell/smellmonster.jpg");
+        
+        smellHeatFireImg = new ImageIcon("images/smellheat/smellheatfire.jpg");
+        smellHeatGoldImg = new ImageIcon("images/smellheat/smellheatgold.jpg");
+        smellHeatGroundImg = new ImageIcon("images/smellheat/smellheatground.jpg");
+        smellHeatKevinImg = new ImageIcon("images/smellheat/smellheatkevin.jpg");
+        smellHeatKevinInFireImg = new ImageIcon("images/smellheat/smellheatkevininfire.jpg");
+        smellHeatKevinInGoldImg = new ImageIcon("images/smellheat/smellheatkeviningold.jpg");
+        smellHeatKevinInMonsterImg = new ImageIcon("images/smellheat/smellheatkevininmonster.jpg"); 
+        smellHeatMonsterImg = new ImageIcon("images/smellheat/smellheatmonster.jpg");     
+        
         // start filling grid
         for (int row = 0; row < buttonGrid.length; row++) {
             for (int col = 0; col < buttonGrid[row].length; col++) {
                 String cellLabel = "";
                 ImageIcon image = groundImg;
-                if (mBoard.getBoard()[row][col].getWall() == true) {
-                    image = rockImg;
+                
+                // Affichage classique
+                if (mBoard.typeAffichage == 1) {
+                    if (mBoard.getBoard()[row][col].getWall() == true) {
+                        image = rockImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getHole() == true) {
+                        image = fireImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                        image = monsterImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                        image = kevinImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getGold() == true) {
+                        image = goldImg;
+                    }
+                    else image = groundImg;
                 }
-                if (mBoard.getBoard()[row][col].getHole() == true) {
-                    image = fireImg;
+                
+                // Affichage du vent et des odeurs
+                else if (mBoard.typeAffichage == 2) {
+                    if ((mBoard.getBoard()[row][col].getWind() == true) && (mBoard.getBoard()[row][col].getSmell() == true)) {
+                        if (mBoard.getBoard()[row][col].getHole() == true) {
+                           image = smellHeatFireImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                           image = smellHeatMonsterImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                           image = smellHeatKevinImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getGold() == true) {
+                           image = smellHeatGoldImg;
+                        }
+                        else image = smellHeatGroundImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getSmell() == true) {
+                        if (mBoard.getBoard()[row][col].getHole() == true) {
+                           image = smellFireImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                           image = smellMonsterImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                           image = smellKevinImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getGold() == true) {
+                           image = smellGoldImg;
+                        }
+                        else image = smellGroundImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getWind() == true) {
+                        if (mBoard.getBoard()[row][col].getHole() == true) {
+                           image = heatFireImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                           image = smellHeatMonsterImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                           image = heatKevinImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getGold() == true) {
+                           image = heatGoldImg;
+                        }  
+                        else image = heatGroundImg;
+                    }
+                    else {
+                        if (mBoard.getBoard()[row][col].getHole() == true) {
+                            image = fireImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                            image = monsterImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                            image = kevinImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getGold() == true) {
+                            image = goldImg;
+                        }
+                        else image = groundImg;
+                    }
+                    
+                    if (mBoard.getBoard()[row][col].getWall() == true) {
+                        image = rockImg;
+                    }
                 }
-                if (mBoard.getBoard()[row][col].getMonster() == true) {
-                    image = monsterImg;
-                }
-                if (mBoard.getBoard()[row][col].getPlayer() == true) {
-                    image = kevinImg;
-                }
-                if (mBoard.getBoard()[row][col].getGold() == true) {
-                    image = goldImg;
-                }
-                if (mBoard.getBoard()[row][col].getSmell() == true) {
-
-                }
-                if (mBoard.getBoard()[row][col].getWind() == true) {
-
-                }
+                
+                
                 buttonGrid[row][col] = new JButton();
                 buttonGrid[row][col].setEnabled(false);
                 int scale = 2 ;
@@ -173,27 +290,99 @@ public class GameWindow {
         window.setVisible(true);
     }
 
-    public void refreshBoard(Board board) {
+    public void refreshBoard(Board mBoard) {
         // start filling grid
         for (int row = 0; row < buttonGrid.length; row++) {
             for (int col = 0; col < buttonGrid[row].length; col++) {
 
                 ImageIcon image = groundImg;
 
-                if (board.getBoard()[row][col].getPlayer() == true) {
-                    image = kevinImg;
-                } else if (board.getBoard()[row][col].getWall() == true) {
-                    image = rockImg;
-                } else if (board.getBoard()[row][col].getHole() == true) {
-                    image = fireImg;
-                } else if (board.getBoard()[row][col].getMonster() == true) {
-                    image = monsterImg;
-                } else if (board.getBoard()[row][col].getGold() == true) {
-                    image = goldImg;
-                } else if (board.getBoard()[row][col].getSmell() == true) {
-
-                } else if (board.getBoard()[row][col].getWind() == true) {
-
+                // Affichage classique
+                if (mBoard.typeAffichage == 1) {
+                    if (mBoard.getBoard()[row][col].getWall() == true) {
+                        image = rockImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getHole() == true) {
+                        image = fireImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                        image = monsterImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                        image = kevinImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getGold() == true) {
+                        image = goldImg;
+                    }
+                    else image = groundImg;
+                }
+                
+                // Affichage du vent et des odeurs
+                else if (mBoard.typeAffichage == 2) {
+                    if ((mBoard.getBoard()[row][col].getWind() == true) && (mBoard.getBoard()[row][col].getSmell() == true)) {
+                        if (mBoard.getBoard()[row][col].getHole() == true) {
+                           image = smellHeatFireImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                           image = smellHeatMonsterImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                           image = smellHeatKevinImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getGold() == true) {
+                           image = smellHeatGoldImg;
+                        }
+                        else image = smellHeatGroundImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getSmell() == true) {
+                        if (mBoard.getBoard()[row][col].getHole() == true) {
+                           image = smellFireImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                           image = smellMonsterImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                           image = smellKevinImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getGold() == true) {
+                           image = smellGoldImg;
+                        }
+                        else image = smellGroundImg;
+                    }
+                    else if (mBoard.getBoard()[row][col].getWind() == true) {
+                        if (mBoard.getBoard()[row][col].getHole() == true) {
+                           image = heatFireImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                           image = smellHeatMonsterImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                           image = heatKevinImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getGold() == true) {
+                           image = heatGoldImg;
+                        }  
+                        else image = heatGroundImg;
+                    }
+                    else {
+                        if (mBoard.getBoard()[row][col].getHole() == true) {
+                            image = fireImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getMonster() == true) {
+                            image = monsterImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getPlayer() == true) {
+                            image = kevinImg;
+                        }
+                        else if (mBoard.getBoard()[row][col].getGold() == true) {
+                            image = goldImg;
+                        }
+                        else image = groundImg;
+                    }
+                    
+                    if (mBoard.getBoard()[row][col].getWall() == true) {
+                        image = rockImg;
+                    }
                 }
                 int scale = 2;
                 int width = image.getIconWidth();
