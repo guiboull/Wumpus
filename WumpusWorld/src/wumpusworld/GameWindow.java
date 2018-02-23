@@ -281,7 +281,7 @@ public class GameWindow {
                 
                 // DJIKSTRA
                 for (int djikstra = 0; djikstra < d.path.size(); djikstra++) {    
-                    if (row == d.path.get(djikstra)[0] && col == d.path.get(djikstra)[1]) {
+                    if (row == d.path.get(djikstra)[0] && col == d.path.get(djikstra)[1] && (mBoard.getBoard()[row][col].getGold() == false)) {
                            image = djikstraImg;
                            System.out.println("OK");
                     }
