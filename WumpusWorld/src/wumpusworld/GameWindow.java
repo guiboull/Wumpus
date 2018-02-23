@@ -50,6 +50,7 @@ public class GameWindow {
     private ImageIcon smellHeatKevinInGoldImg;
     private ImageIcon smellHeatKevinInMonsterImg;   
     private ImageIcon smellHeatMonsterImg;
+    private ImageIcon djikstraImg;
 
     public GameWindow(Board mBoard) {
         int windowSize = 900/11*mBoard.col;
@@ -141,6 +142,10 @@ public class GameWindow {
         window.getContentPane().add(gridPanel, BorderLayout.CENTER);
         window.getContentPane().add(configPanel, BorderLayout.EAST);
 
+        ShortestPath d = new ShortestPath(mBoard.col-2, mBoard.row-2, mBoard.colGold, mBoard.rowGold, mBoard.proxiBoard);
+        d.djikstra();
+        d.showDjikstra();
+        
         // images
         fireImg = new ImageIcon("images/fire.jpg");
         goldImg = new ImageIcon("images/gold.jpg");
@@ -177,6 +182,8 @@ public class GameWindow {
         smellHeatKevinInGoldImg = new ImageIcon("images/smellheat/smellheatkeviningold.jpg");
         smellHeatKevinInMonsterImg = new ImageIcon("images/smellheat/smellheatkevininmonster.jpg"); 
         smellHeatMonsterImg = new ImageIcon("images/smellheat/smellheatmonster.jpg");     
+        
+        djikstraImg = new ImageIcon("images/djikstra.jpg");
         
         // start filling grid
         for (int row = 0; row < buttonGrid.length; row++) {
@@ -272,6 +279,13 @@ public class GameWindow {
                     }
                 }
                 
+                // DJIKSTRA
+                for (int djikstra = 0; djikstra < d.path.size(); djikstra++) {    
+                    if (row == d.path.get(djikstra)[0] && col == d.path.get(djikstra)[1]) {
+                           image = djikstraImg;
+                           System.out.println("OK");
+                    }
+                }
                 
                 buttonGrid[row][col] = new JButton();
                 buttonGrid[row][col].setEnabled(false);
@@ -283,8 +297,9 @@ public class GameWindow {
                 buttonGrid[row][col].setMargin(new Insets(0, 0, 0, 0));
                 buttonGrid[row][col].setBorder(BorderFactory.createEmptyBorder());
                 gridPanel.add(buttonGrid[row][col]);
-            }
+            }   
         }
+        
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
