@@ -16,15 +16,15 @@ public class ShortestPath {
     protected ArrayList<Duo> lastNode;
     protected ArrayList<int[]> path;
 
-    public ShortestPath(int col, int row, int colKevin, int rowKevin, int colGold, int rowGold, boolean[][][][] proxi) {
+    public ShortestPath(int col, int row, int colStart, int rowStart, int colEnd, int rowEnd, boolean[][][][] proxi) {
         col = col + 2;
         row = row + 2;
         this.col = col;
         this.row = row;
-        this.colGold = colGold;
-        this.rowGold = rowGold;
-        this.rowKevin = rowKevin;
-        this.colKevin = colKevin;
+        this.colGold = colEnd;
+        this.rowGold = rowEnd;
+        this.rowKevin = rowStart;
+        this.colKevin = colStart;
         nodeList = new ArrayList<int[]>();
         lastNode = new ArrayList<Duo>();
         path = new ArrayList<>();
@@ -42,7 +42,7 @@ public class ShortestPath {
                 }
             }
         }
-        djikstra[colKevin][rowKevin] = 0;
+        djikstra[colStart][rowStart] = 0;
         this.proxi = proxi;
     }
 
