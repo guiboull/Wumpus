@@ -8,19 +8,23 @@ public class ShortestPath {
     protected int row;
     protected int colGold;
     protected int rowGold;
+    protected int colKevin;
+    protected int rowKevin;    
     protected int[][] djikstra;
     protected ArrayList<int[]> nodeList;
     protected boolean[][][][] proxi;
     protected ArrayList<Duo> lastNode;
     protected ArrayList<int[]> path;
 
-    public ShortestPath(int col, int row, int colGold, int rowGold, boolean[][][][] proxi) {
+    public ShortestPath(int col, int row, int colKevin, int rowKevin, int colGold, int rowGold, boolean[][][][] proxi) {
         col = col + 2;
         row = row + 2;
         this.col = col;
         this.row = row;
         this.colGold = colGold;
         this.rowGold = rowGold;
+        this.rowKevin = rowKevin;
+        this.colKevin = colKevin;
         nodeList = new ArrayList<int[]>();
         lastNode = new ArrayList<Duo>();
         path = new ArrayList<>();
@@ -38,7 +42,7 @@ public class ShortestPath {
                 }
             }
         }
-        djikstra[col - 2][1] = 0;
+        djikstra[colKevin][rowKevin] = 0;
         this.proxi = proxi;
     }
 
@@ -167,7 +171,7 @@ public class ShortestPath {
         int itX = colGold;
         int itY = rowGold;
 
-        while (itX != col - 2 || itY != 1) {
+        while (itX != rowKevin || itY != colKevin) {
             int tempItX = -1;
             int tempItY = -1;
             int[] node = new int[2];
@@ -185,30 +189,3 @@ public class ShortestPath {
         }
     }
 }
-/*
-
-A = suite vide
-2 s := sfin
-3 tant que s != sdeb faire
-4   A = A + s                  on ajoute s à la suite A 
-5   s = prédécesseur[s]        on continue de suivre le chemin 
-6 fin tant que
-
-Dijkstra(G,Poids,sdeb)
-1 Initialisation(G,sdeb)
-2 Q := ensemble de tous les nœuds
-3 tant que Q n'est pas un ensemble vide faire
-4       s1 := Trouve_min(Q)
-5       Q := Q privé de s1
-6       pour chaque nœud s2 voisin de s1 faire
-7           maj_distances(s1,s2)
-8       fin pour
-9 fin tant que
-
-maj_distances(s1,s2)
-1 si d[s2] > d[s1] + Poids(s1,s2)        Si la distance de sdeb à s2 est plus grande que 
-2                                        celle de sdeb à S1 plus celle de S1 à S2 
-3    alors 
-4        d[s2] := d[s1] + Poids(s1,s2)   On prend ce nouveau chemin qui est plus court
-5        prédécesseur[s2] := s1          En notant par où on passe 
- */
