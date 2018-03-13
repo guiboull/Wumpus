@@ -171,7 +171,7 @@ public class ShortestPath {
         int itX = colGold;
         int itY = rowGold;
 
-        while (itX != rowKevin || itY != colKevin) {
+        while (itX != colKevin || itY != rowKevin) {
             int tempItX = -1;
             int tempItY = -1;
             int[] node = new int[2];
