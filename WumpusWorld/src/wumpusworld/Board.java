@@ -1,5 +1,7 @@
 package wumpusworld;
 
+import wumpusworld.Kevins.Kevin;
+
 public class Board {
 
     protected Cell board[][];

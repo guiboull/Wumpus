@@ -3,28 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wumpusworld;
+package wumpusworld.Kevins;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import wumpusworld.Kevins.Kevin;
 
 /**
  *
  * @author Tancrède
  */
-public class Kevin {
+public class KevinTheFirst extends Kevin {
 
     int x;
     int y;
     int previousX;
     int previousY;
-    int age;
     boolean isAlive;
     int[][] board = new int[100][100];
-    Cell currentCell;
 
-    public Kevin() {
+    public KevinTheFirst() {
         //init position kevin
         x = 1;
         y = 1;
@@ -41,6 +40,7 @@ public class Kevin {
 
     }
 
+    @Override
     public int[] go() {
         thinkKevinTHINK();
         int[] move = new int[2];
