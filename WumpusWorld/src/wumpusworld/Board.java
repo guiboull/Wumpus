@@ -1,31 +1,33 @@
 package wumpusworld;
 
-import wumpusworld.Kevins.Kevin;
+import wumpusworld.Kevins.KevinTheFirst;
 
 public class Board {
 
-    protected Cell board[][];
-    protected boolean proxiBoard[][][][];
-    protected int col;
-    protected int row;
-    protected int colGold;
-    protected int rowGold;
-    protected boolean monsterAlive;
-    protected boolean playerAlive;
-    protected String cheminOpti;
-    protected String cheminPasTropOpti;
-    protected int typeAffichage;
+    public Cell board[][];
+    public boolean proxiBoard[][][][];
+    public int col;
+    public int row;
+    public int colGold;
+    public int rowGold;
+    public boolean monsterAlive;
+    public boolean playerAlive;
+    public String cheminOpti;
+    public String cheminPasTropOpti;
+    public boolean displayMode;
+    public boolean fogMode;
 
-    protected Kevin kevin;
-    protected int kevinX;
-    protected int kevinY;
+    public KevinTheFirst kevin;
+    public int kevinX;
+    public int kevinY;
 
     public Board(int Col, int Row) {
         col = Col + 2;
         row = Row + 2;
         board = new Cell[col][row];
         proxiBoard = new boolean[col][row][col][row];
-        typeAffichage = 2;
+        displayMode = true;
+        fogMode = true;
 
         for (int countCol = 0; countCol < col; countCol++) {
             for (int countRow = 0; countRow < row; countRow++) {
@@ -68,6 +70,14 @@ public class Board {
 
     public Cell getCell(int col, int row) {
         return board[col][row];
+    }
+
+    public boolean[][][][] getProxiBoard() {
+        return proxiBoard;
+    }
+
+    public void setProxiBoard(boolean[][][][] proxiBoard) {
+        this.proxiBoard = proxiBoard;
     }
 
     public Cell getCell(int countCol, int countRow, Direction dir) {
@@ -179,6 +189,7 @@ public class Board {
         // maj des cells du board
         board[kevinY][kevinX].hasKevin = false;
         board[kevinY - y][kevinX + x].hasKevin = true;
+        board[kevinY - y][kevinX + x].fog = false;
         kevinX = kevinX + x;
         kevinY = kevinY - y;
         // maj des variables de kevin
@@ -192,7 +203,8 @@ public class Board {
         kevinX = 1;
         kevinY = col - 2;
         board[kevinY][kevinX].setPlayer(true);
-        kevin = new Kevin();
+        board[kevinY][kevinX].setFog(false);
+        kevin = new KevinTheFirst();
         kevin.currentCell = board[kevinX][kevinY];
 
         while (ok == false) {

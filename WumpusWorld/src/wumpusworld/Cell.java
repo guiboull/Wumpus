@@ -2,14 +2,15 @@ package wumpusworld;
 
 public class Cell {
 
-    protected boolean smell;
-    protected boolean wind;
+    public boolean smell;
+    public boolean wind;
 
-    protected boolean monster;
-    protected boolean gold;
-    protected boolean hole;
-    protected boolean wall;
-    protected boolean hasKevin;
+    public boolean monster;
+    public boolean gold;
+    public boolean hole;
+    public boolean wall;
+    public boolean hasKevin;
+    public boolean fog;
 
     public Cell() {
         smell = false;
@@ -19,6 +20,7 @@ public class Cell {
         hole = false;
         wall = false;
         hasKevin = false;
+        fog = true;
     }
 
     public boolean getSmell() {
@@ -48,6 +50,10 @@ public class Cell {
     public boolean getPlayer() {
         return hasKevin;
     }
+    
+    public boolean getFog() {
+        return fog;
+    }
 
     public void setSmell(boolean b) {
         smell = b;
@@ -75,6 +81,10 @@ public class Cell {
 
     public void setPlayer(boolean b) {
         hasKevin = b;
+    }
+    
+        public void setFog(boolean b) {
+        fog = b;
     }
 
     public boolean isSafe() {

@@ -4,27 +4,28 @@ import java.util.ArrayList;
 
 public class ShortestPath {
 
-    protected int col;
-    protected int row;
-    protected int colGold;
-    protected int rowGold;
-    protected int colKevin;
-    protected int rowKevin;    
-    protected int[][] djikstra;
-    protected ArrayList<int[]> nodeList;
-    protected boolean[][][][] proxi;
-    protected ArrayList<Duo> lastNode;
-    protected ArrayList<int[]> path;
+    public int col;
+    public int row;
+    public int colStart;
+    public int rowStart;
+    public int colEnd;
+    public int rowEnd;
+    public int[][] djikstra;
+    public ArrayList<int[]> nodeList;
+    public boolean[][][][] proxi;
+
+    public ArrayList<Duo> lastNode;
+    public ArrayList<int[]> path;
 
     public ShortestPath(int col, int row, int colStart, int rowStart, int colEnd, int rowEnd, boolean[][][][] proxi) {
         col = col + 2;
         row = row + 2;
         this.col = col;
         this.row = row;
-        this.colGold = colEnd;
-        this.rowGold = rowEnd;
-        this.rowKevin = rowStart;
-        this.colKevin = colStart;
+        this.colEnd = colEnd;
+        this.rowEnd = rowEnd;
+        this.rowStart = rowStart;
+        this.colStart = colStart;
         nodeList = new ArrayList<int[]>();
         lastNode = new ArrayList<Duo>();
         path = new ArrayList<>();
@@ -43,17 +44,18 @@ public class ShortestPath {
             }
         }
         djikstra[colStart][rowStart] = 0;
-        this.proxi = proxi;
+        this.proxi = new boolean[col][row][col][row];
+        setProxi(proxi);
     }
 
     public void djikstra() {
         System.out.println("DJIKSTRA");
         int[] mem = new int[2];
-        mem[0] = 9;
-        mem[1] = 1;
+        mem[0] = colStart;
+        mem[1] = rowStart;
         nodeList.remove(mem);
-        
-        while (djikstra[colGold][rowGold] == 10000) {
+        System.out.println(proxi[mem[0]][mem[1]][mem[0] - 1][mem[1]]);
+        while (djikstra[colEnd][rowEnd] == 10000) {
             mem = findMin();
             nodeList.remove(mem);
             if (proxi[mem[0]][mem[1]][mem[0] - 1][mem[1]]) {
@@ -94,7 +96,8 @@ public class ShortestPath {
     }
 
     public void showDjikstra() {
-        System.out.println(colGold + " " + rowGold);
+        System.out.println("Point de depart: " + colStart + " " + rowStart);
+        System.out.println("Point d'arrivée: " + colEnd + " " + rowEnd);
         for (int i = 0; i < col; i++) {
             for (int j = 0; j < row; j++) {
                 if (djikstra[i][j] == 10000) {
@@ -113,7 +116,7 @@ public class ShortestPath {
         for (int i = 0; i < path.size(); i++) {
             System.out.print("[" + path.get(i)[0] + "," + path.get(i)[1] + "]");
         }
-        System.out.print("[" + (col-2) + "," + 1 + "]");
+        System.out.println("[" + (col - 2) + "," + 1 + "]");
         System.out.println("DJIKSTRA OK");
     }
 
@@ -168,24 +171,37 @@ public class ShortestPath {
     }
 
     public void path() {
-        int itX = colGold;
-        int itY = rowGold;
+        if (path.size() == 0) {
+            int itX = colEnd;
+            int itY = rowEnd;
 
-        while (itX != colKevin || itY != rowKevin) {
-            int tempItX = -1;
-            int tempItY = -1;
-            int[] node = new int[2];
-            node[0] = itX;
-            node[1] = itY;
-            path.add(node);
-            for (int i = 0; i < lastNode.size(); i++) {
-                if (lastNode.get(i).getFirst()[0] == itX && lastNode.get(i).getFirst()[1] == itY) {
-                    tempItX = lastNode.get(i).getSecond()[0];
-                    tempItY = lastNode.get(i).getSecond()[1];
+            while (itX != colStart || itY != rowStart) {
+                int tempItX = -1;
+                int tempItY = -1;
+                int[] node = new int[2];
+                node[0] = itX;
+                node[1] = itY;
+                path.add(node);
+                for (int i = 0; i < lastNode.size(); i++) {
+                    if (lastNode.get(i).getFirst()[0] == itX && lastNode.get(i).getFirst()[1] == itY) {
+                        tempItX = lastNode.get(i).getSecond()[0];
+                        tempItY = lastNode.get(i).getSecond()[1];
+                    }
+                }
+                itX = tempItX;
+                itY = tempItY;
+            }
+        }
+    }
+    public void setProxi(boolean[][][][] proxi) {
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
+                for (int k = 0; k < col; k++) {
+                    for (int l = 0; l < row; l++) {
+                        this.proxi[i][j][k][l] = proxi[i][j][k][l];
+                    }
                 }
             }
-            itX = tempItX;
-            itY = tempItY;
         }
     }
 }

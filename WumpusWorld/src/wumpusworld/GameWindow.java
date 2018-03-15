@@ -35,6 +35,7 @@ public class GameWindow implements ActionListener {
     private final ImageIcon kevinInMonsterImg = new ImageIcon("images/kevininmonster.jpg");
     private final ImageIcon monsterImg = new ImageIcon("images/monster.jpg");
     private final ImageIcon rockImg = new ImageIcon("images/rock.jpg");
+    private final ImageIcon fogImg = new ImageIcon("images/fog.jpg");
 
     private final ImageIcon heatFireImg = new ImageIcon("images/heat/heatfire.jpg");
     private final ImageIcon heatGoldImg = new ImageIcon("images/heat/heatgold.jpg");
@@ -42,7 +43,8 @@ public class GameWindow implements ActionListener {
     private final ImageIcon heatKevinImg = new ImageIcon("images/heat/heatkevin.jpg");
     private final ImageIcon heatKevinInFireImg = new ImageIcon("images/heat/heatkevininfire.jpg");
     private final ImageIcon heatKevinInMonsterImg = new ImageIcon("images/heat/heatkevininmonster.jpg");
-    private final ImageIcon heatKevinInGoldImg = new ImageIcon("images/heat/heatkevininmonster.jpg");
+    private final ImageIcon heatKevinInGoldImg = new ImageIcon("images/heat/heatkeviningold.jpg");
+    private final ImageIcon heatMonsterImg = new ImageIcon("images/heatmonster.jpg");
 
     private final ImageIcon smellFireImg = new ImageIcon("images/smell/smellfire.jpg");
     private final ImageIcon smellGoldImg = new ImageIcon("images/smell/smellgold.jpg");
@@ -65,16 +67,17 @@ public class GameWindow implements ActionListener {
     private final ImageIcon djikstraImg = new ImageIcon("images/djikstra.jpg");
 
     private ShortestPath shortestPath;
-   
     private Board currentBoard;
-    
+
     private int xPositionKevin;
     private int yPositionKevin;
-    
-    private boolean showDjisktra = false;
-    
-    private JButton autoButton;
+
+    private boolean showDjikstra = false;
+
     private JButton djikstraButton;
+    private JButton autoButton;
+    private JButton displayModeButton;
+    private JButton fogButton;
 
     public GameWindow(Board mBoard) {
         currentBoard = mBoard;
@@ -142,10 +145,18 @@ public class GameWindow implements ActionListener {
         mamaPanel.setLayout(new BoxLayout(mamaPanel, BoxLayout.LINE_AXIS));
         mamaPanel.add(new JCheckBox("Mama's son"));
         mamaPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        JPanel manualPanel = new JPanel();
-        manualPanel.setLayout(new BoxLayout(manualPanel, BoxLayout.LINE_AXIS));
-        manualPanel.add(new JButton("Manual"));
-        manualPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        JPanel displayModePanel = new JPanel();
+        displayModePanel.setLayout(new BoxLayout(displayModePanel, BoxLayout.LINE_AXIS));
+        displayModeButton = new JButton("Display Mode");
+        displayModeButton.addActionListener(this);
+        displayModePanel.add(displayModeButton);
+        displayModePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        JPanel fogPanel = new JPanel();
+        fogPanel.setLayout(new BoxLayout(fogPanel, BoxLayout.LINE_AXIS));
+        fogButton = new JButton("Fog");
+        fogButton.addActionListener(this);
+        fogPanel.add(fogButton);
+        fogPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         JPanel autoPanel = new JPanel();
         autoPanel.setLayout(new BoxLayout(autoPanel, BoxLayout.LINE_AXIS));
         autoButton = new JButton("Auto");
@@ -156,7 +167,8 @@ public class GameWindow implements ActionListener {
         moveKevinPanel.add(yoloPanel);
         moveKevinPanel.add(commonPanel);
         moveKevinPanel.add(mamaPanel);
-        moveKevinPanel.add(manualPanel);
+        moveKevinPanel.add(displayModePanel);
+        moveKevinPanel.add(fogPanel);
         moveKevinPanel.add(autoPanel);
 
         // add elements to configPanel
@@ -170,11 +182,11 @@ public class GameWindow implements ActionListener {
         window.getContentPane().add(gridPanel, BorderLayout.CENTER);
         window.getContentPane().add(configPanel, BorderLayout.EAST);
 
-        xPositionKevin = currentBoard.col - 2;
-        yPositionKevin = currentBoard.row - 2;
+        xPositionKevin = currentBoard.row - 2;
+        yPositionKevin = 1;
 
-        shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2, yPositionKevin, xPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.proxiBoard);
-
+        //shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2, xPositionKevin, yPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.getProxiBoard());
+        //shortestPath.djikstra();
         // start filling grid
         for (int row = 0; row < buttonGrid.length; row++) {
             for (int col = 0; col < buttonGrid[row].length; col++) {
@@ -182,57 +194,110 @@ public class GameWindow implements ActionListener {
                 ImageIcon image = groundImg;
 
                 // Affichage classique
-                if (currentBoard.typeAffichage == 1) {
+                if (currentBoard.displayMode) {
                     if (currentBoard.getBoard()[row][col].getWall() == true) {
                         image = rockImg;
                     } else if (currentBoard.getBoard()[row][col].getHole() == true) {
-                        image = fireImg;
+                        if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                            image = kevinInFireImg;
+                        } else {
+                            image = fireImg;
+                        }
                     } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                        image = monsterImg;
+                        if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                            image = kevinInMonsterImg;
+                        } else {
+                            image = monsterImg;
+                        }
+                    } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                        if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                            image = kevinInGoldImg;
+                        } else {
+                            image = goldImg;
+                        }
                     } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                         image = kevinImg;
                         xPositionKevin = row;
                         yPositionKevin = col;
-                    } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                        image = goldImg;
                     } else {
                         image = groundImg;
                     }
+                    if (currentBoard.fogMode && currentBoard.getBoard()[row][col].getFog() == true) {
+                        image = fogImg;
+                    }
                 } // Affichage du vent et des odeurs
-                else if (currentBoard.typeAffichage == 2) {
+                else if (!currentBoard.displayMode) {
                     if ((currentBoard.getBoard()[row][col].getWind() == true) && (currentBoard.getBoard()[row][col].getSmell() == true)) {
                         if (currentBoard.getBoard()[row][col].getHole() == true) {
-                            image = smellHeatFireImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellHeatKevinInFireImg;
+                            } else {
+                                image = smellHeatFireImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                            image = smellHeatMonsterImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellHeatKevinInMonsterImg;
+                            } else {
+                                image = smellHeatMonsterImg;
+                            }
+                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellHeatKevinInGoldImg;
+                            } else {
+                                image = smellHeatGoldImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                             image = smellHeatKevinImg;
-                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                            image = smellHeatGoldImg;
+                            xPositionKevin = row;
+                            yPositionKevin = col;
                         } else {
                             image = smellHeatGroundImg;
                         }
                     } else if (currentBoard.getBoard()[row][col].getSmell() == true) {
                         if (currentBoard.getBoard()[row][col].getHole() == true) {
-                            image = smellFireImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellKevinInFireImg;
+                            } else {
+                                image = smellFireImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                            image = smellMonsterImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellKevinInMonsterImg;
+                            } else {
+                                image = smellMonsterImg;
+                            }
+                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellKevinInGoldImg;
+                            } else {
+                                image = smellGoldImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                             image = smellKevinImg;
-                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                            image = smellGoldImg;
                         } else {
                             image = smellGroundImg;
                         }
                     } else if (currentBoard.getBoard()[row][col].getWind() == true) {
                         if (currentBoard.getBoard()[row][col].getHole() == true) {
-                            image = heatFireImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = heatKevinInFireImg;
+                            } else {
+                                image = heatFireImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                            image = smellHeatMonsterImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = heatKevinInMonsterImg;
+                            } else {
+                                image = heatMonsterImg;
+                            }
+                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = heatKevinInGoldImg;
+                            } else {
+                                image = heatGoldImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                             image = heatKevinImg;
-                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                            image = heatGoldImg;
                         } else {
                             image = heatGroundImg;
                         }
@@ -249,9 +314,11 @@ public class GameWindow implements ActionListener {
                             image = groundImg;
                         }
                     }
-
                     if (currentBoard.getBoard()[row][col].getWall() == true) {
                         image = rockImg;
+                    }
+                    if (currentBoard.fogMode && currentBoard.getBoard()[row][col].getFog() == true) {
+                        image = fogImg;
                     }
                 }
 
@@ -279,71 +346,139 @@ public class GameWindow implements ActionListener {
             for (int col = 0; col < buttonGrid[row].length; col++) {
 
                 ImageIcon image = groundImg;
-
+                if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                    xPositionKevin = row;
+                    yPositionKevin = col;
+                }
                 // Affichage classique
-                if (currentBoard.typeAffichage == 1) {
+                if (currentBoard.displayMode) {
                     if (currentBoard.getBoard()[row][col].getWall() == true) {
                         image = rockImg;
                     } else if (currentBoard.getBoard()[row][col].getHole() == true) {
-                        image = fireImg;
+                        if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                            image = kevinInFireImg;
+                        } else {
+                            image = fireImg;
+                        }
                     } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                        image = monsterImg;
+                        if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                            image = kevinInMonsterImg;
+                        } else {
+                            image = monsterImg;
+                        }
+                    } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                        if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                            image = kevinInGoldImg;
+                        } else {
+                            image = goldImg;
+                        }
                     } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                         image = kevinImg;
                         xPositionKevin = row;
                         yPositionKevin = col;
-                    } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                        image = goldImg;
                     } else {
                         image = groundImg;
                     }
+                    if (currentBoard.fogMode && currentBoard.getBoard()[row][col].getFog() == true) {
+                        image = fogImg;
+                    }
                 } // Affichage du vent et des odeurs
-                else if (currentBoard.typeAffichage == 2) {
+                else if (!currentBoard.displayMode) {
                     if ((currentBoard.getBoard()[row][col].getWind() == true) && (currentBoard.getBoard()[row][col].getSmell() == true)) {
                         if (currentBoard.getBoard()[row][col].getHole() == true) {
-                            image = smellHeatFireImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellHeatKevinInFireImg;
+                            } else {
+                                image = smellHeatFireImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                            image = smellHeatMonsterImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellHeatKevinInMonsterImg;
+                            } else {
+                                image = smellHeatMonsterImg;
+                            }
+                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellHeatKevinInGoldImg;
+                            } else {
+                                image = smellHeatGoldImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                             image = smellHeatKevinImg;
-                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                            image = smellHeatGoldImg;
+                            xPositionKevin = row;
+                            yPositionKevin = col;
                         } else {
                             image = smellHeatGroundImg;
                         }
                     } else if (currentBoard.getBoard()[row][col].getSmell() == true) {
                         if (currentBoard.getBoard()[row][col].getHole() == true) {
-                            image = smellFireImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellKevinInFireImg;
+                            } else {
+                                image = smellFireImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                            image = smellMonsterImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellKevinInMonsterImg;
+                            } else {
+                                image = smellMonsterImg;
+                            }
+                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = smellKevinInGoldImg;
+                            } else {
+                                image = smellGoldImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                             image = smellKevinImg;
-                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                            image = smellGoldImg;
                         } else {
                             image = smellGroundImg;
                         }
                     } else if (currentBoard.getBoard()[row][col].getWind() == true) {
                         if (currentBoard.getBoard()[row][col].getHole() == true) {
-                            image = heatFireImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = heatKevinInFireImg;
+                            } else {
+                                image = heatFireImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                            image = smellHeatMonsterImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = heatKevinInMonsterImg;
+                            } else {
+                                image = heatMonsterImg;
+                            }
+                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = heatKevinInGoldImg;
+                            } else {
+                                image = heatGoldImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                             image = heatKevinImg;
-                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                            image = heatGoldImg;
                         } else {
                             image = heatGroundImg;
                         }
                     } else {
                         if (currentBoard.getBoard()[row][col].getHole() == true) {
-                            image = fireImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = kevinInFireImg;
+                            } else {
+                                image = fireImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getMonster() == true) {
-                            image = monsterImg;
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = kevinInMonsterImg;
+                            } else {
+                                image = monsterImg;
+                            }
+                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
+                            if (currentBoard.getBoard()[row][col].getPlayer() == true) {
+                                image = kevinInGoldImg;
+                            } else {
+                                image = goldImg;
+                            }
                         } else if (currentBoard.getBoard()[row][col].getPlayer() == true) {
                             image = kevinImg;
-                        } else if (currentBoard.getBoard()[row][col].getGold() == true) {
-                            image = goldImg;
                         } else {
                             image = groundImg;
                         }
@@ -351,6 +486,9 @@ public class GameWindow implements ActionListener {
 
                     if (currentBoard.getBoard()[row][col].getWall() == true) {
                         image = rockImg;
+                    }
+                    if (currentBoard.fogMode && currentBoard.getBoard()[row][col].getFog() == true) {
+                        image = fogImg;
                     }
                 }
                 int scale = 2;
@@ -360,6 +498,7 @@ public class GameWindow implements ActionListener {
                 buttonGrid[row][col].setDisabledIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1, java.awt.Image.SCALE_SMOOTH)));
                 buttonGrid[row][col].setMargin(new Insets(0, 0, 0, 0));
                 buttonGrid[row][col].setBorder(BorderFactory.createEmptyBorder());
+                showDjikstra = false;
             }
         }
     }
@@ -368,10 +507,11 @@ public class GameWindow implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == djikstraButton) {
-            showDjisktra = !showDjisktra;
+            showDjikstra = !showDjikstra;
             // Djisktra BUTTON
-            if (showDjisktra) {
-                shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2,  yPositionKevin, xPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.proxiBoard);
+            if (showDjikstra) {
+                System.out.println("Point de depart: " + xPositionKevin + " " + yPositionKevin);
+                shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2, xPositionKevin, yPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.getProxiBoard());
                 shortestPath.djikstra();
                 shortestPath.showDjikstra();
                 // start filling grid
@@ -381,7 +521,6 @@ public class GameWindow implements ActionListener {
                         for (int index = 0; index < shortestPath.path.size(); index++) {
                             if (row == shortestPath.path.get(index)[0] && col == shortestPath.path.get(index)[1] && (currentBoard.getBoard()[row][col].getGold() == false)) {
                                 ImageIcon image = djikstraImg;
-                                System.out.println("OK");
                                 int scale = 2;
                                 int width = image.getIconWidth();
                                 int newWidth = width / scale;
@@ -393,11 +532,14 @@ public class GameWindow implements ActionListener {
                         }
                     }
                 }
-            } else if (!showDjisktra) {
-                refreshBoard();
             }
         } else if (source == autoButton) {
             moveKevinAuto = !moveKevinAuto;
+        } else if (source == displayModeButton) {
+            currentBoard.displayMode = !currentBoard.displayMode;
+        } else if (source == fogButton) {
+            currentBoard.fogMode = !currentBoard.fogMode;
+            refreshBoard();
         }
     }
 

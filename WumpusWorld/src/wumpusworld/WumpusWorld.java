@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 public class WumpusWorld {
 
     public static boolean moveKevinAuto = false;
-
     private static final int numberOfCells = 10;
 
     public static void main(String[] args) throws InterruptedException {
@@ -35,7 +34,7 @@ public class WumpusWorld {
                 mWindow.refreshBoard();
                 sleep(1000);
             }
-            boardGame.getProxi(1, 9);
+            sleep(1);
         }
     }
 }
