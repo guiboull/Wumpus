@@ -173,7 +173,7 @@ public class GameWindow implements ActionListener {
         xPositionKevin = currentBoard.col - 2;
         yPositionKevin = currentBoard.row - 2;
 
-        shortestPath = new ShortestPath(yPositionKevin, xPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.proxiBoard);
+        shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2, yPositionKevin, xPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.proxiBoard);
 
         // start filling grid
         for (int row = 0; row < buttonGrid.length; row++) {
@@ -371,7 +371,7 @@ public class GameWindow implements ActionListener {
             showDjisktra = !showDjisktra;
             // Djisktra BUTTON
             if (showDjisktra) {
-                shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2, currentBoard.colGold, currentBoard.rowGold, currentBoard.proxiBoard);
+                shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2,  yPositionKevin, xPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.proxiBoard);
                 shortestPath.djikstra();
                 shortestPath.showDjikstra();
                 // start filling grid
