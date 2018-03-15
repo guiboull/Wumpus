@@ -2,9 +2,13 @@ package wumpusworld;
 
 import static java.lang.Thread.sleep;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 public class WumpusWorld {
+
+    public static boolean moveKevinAuto = false;
 
     private static final int numberOfCells = 10;
 
@@ -18,22 +22,20 @@ public class WumpusWorld {
         GameWindow mWindow = new GameWindow(boardGame);
         //boardGame.cheminPasTropOpti(numberOfCells, 1, Direction.N, "", 20);
         //System.out.println(boardGame.getCheminPasTropOpti());
-        
+
         //ShortestPath d = new ShortestPath(numberOfCells, numberOfCells, boardGame.colGold, boardGame.rowGold, boardGame.proxiBoard);
         //d.djikstra();
         // d.showDjikstra();
-        
-        int i = 1;
         sleep(3000);
-        while ( i < 2){
-            int[] move = boardGame.kevin.go();
-            boardGame.moveKevin(move[0], move[1]);
-            mWindow.refreshBoard(boardGame);
-            sleep(1000);
+        
+        while (true) {
+            while (moveKevinAuto) {
+                int[] move = boardGame.kevin.go();
+                boardGame.moveKevin(move[0], move[1]);
+                mWindow.refreshBoard();
+                sleep(1000);
+            }
+            boardGame.getProxi(1, 9);
         }
-        boardGame.getProxi(1, 9);
-
-
     }
-
 }
