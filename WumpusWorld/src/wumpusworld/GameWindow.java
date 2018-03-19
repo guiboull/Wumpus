@@ -537,6 +537,7 @@ public class GameWindow implements ActionListener {
             moveKevinAuto = !moveKevinAuto;
         } else if (source == displayModeButton) {
             currentBoard.displayMode = !currentBoard.displayMode;
+            refreshBoard();
         } else if (source == fogButton) {
             currentBoard.fogMode = !currentBoard.fogMode;
             refreshBoard();

@@ -27,7 +27,7 @@ public class WumpusWorld {
         // d.showDjikstra();
         sleep(3000);
         
-        while (true) {
+        while (boardGame.kevin.status == 0) {
             while (moveKevinAuto) {
                 int[] move = boardGame.kevin.go();
                 boardGame.moveKevin(move[0], move[1]);

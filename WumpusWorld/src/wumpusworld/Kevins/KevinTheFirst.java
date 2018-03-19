@@ -20,7 +20,6 @@ public class KevinTheFirst extends Kevin {
     int y;
     int previousX;
     int previousY;
-    boolean isAlive;
     int[][] board = new int[100][100];
 
     public KevinTheFirst() {
@@ -31,7 +30,7 @@ public class KevinTheFirst extends Kevin {
         previousY = 1;
         //init age kevin
         age = 12;
-        isAlive = true;
+        status = 0;
         //init board kevin
         board[x][y] = 0;
         board[0][0] = -1;
@@ -54,6 +53,7 @@ public class KevinTheFirst extends Kevin {
             y = previousY;
         }else if ( board[x][y] == 9){
             //cest fini
+            status = 2;
             System.out.println("GG");
         }else if (board[x][y] == 3) {
             // si ca smell on fait demi tour

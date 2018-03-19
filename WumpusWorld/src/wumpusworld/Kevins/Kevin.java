@@ -14,7 +14,7 @@ import wumpusworld.Cell;
 public class Kevin {
     
     public int age;
-
+    public int status; // 0 = en vie, 1 = mort, 2 = victoire
     public Cell currentCell;
     
     
