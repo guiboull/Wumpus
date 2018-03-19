@@ -4,7 +4,7 @@ public class Cell {
 
     public boolean smell;
     public boolean wind;
-
+    
     public boolean monster;
     public boolean gold;
     public boolean hole;
@@ -88,7 +88,7 @@ public class Cell {
     }
 
     public boolean isSafe() {
-        if (getHole() || getWall() || getMonster()) {
+        if (getHole() || getMonster()) {
             return false;
         } else {
             return true;
