@@ -1,7 +1,9 @@
 package wumpusworld;
 
+import wumpusworld.Kevins.Kevin;
 import wumpusworld.Kevins.KevinTheFirst;
 import wumpusworld.Kevins.KevinRedoublant;
+import wumpusworld.Kevins.KevinTheBright;
 
 public class Board {
 
@@ -18,7 +20,7 @@ public class Board {
     public boolean displayMode;
     public boolean fogMode;
 
-    public KevinRedoublant kevin;
+    public Kevin kevin;
     public int kevinX;
     public int kevinY;
 
@@ -205,7 +207,7 @@ public class Board {
         kevinY = col - 2;
         board[kevinY][kevinX].setPlayer(true);
         board[kevinY][kevinX].setFog(false);
-        kevin = new KevinRedoublant();
+        kevin = new KevinTheBright();
         kevin.currentCell = board[kevinX][kevinY];
 
         while (ok == false) {
