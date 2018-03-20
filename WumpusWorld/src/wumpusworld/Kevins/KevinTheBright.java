@@ -9,6 +9,7 @@ import wumpusworld.ShortestPath;
  * enum self board : -1 = wall 1 = safe + deja visité 2 = safe 3 = wind 4 =
  * smell 5 = possible hole 6 = possible monster 7 = hole 8 = monster 9 = gold
  */
+
 public class KevinTheBright extends Kevin {
 
     int maxX = 100;
@@ -52,7 +53,8 @@ public class KevinTheBright extends Kevin {
             case 9:
                 //cest fini
                 status = 2;
-                 
+
+                System.out.println("GG");
                 break;
             case 3:
                 // si ca smell on fait demi tour

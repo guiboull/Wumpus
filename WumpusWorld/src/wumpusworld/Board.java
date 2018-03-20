@@ -307,8 +307,4 @@ public class Board {
             }
         }
     }
-
-    public void cheminOpti(int countCol, int countRow) {
-
-    }
 }

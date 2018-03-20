@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package wumpusworld.Kevins;
 
 import java.util.ArrayList;
@@ -11,10 +7,6 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import wumpusworld.Cell;
 
-/**
- *
- * @author Doryann
- */
 public class KevinRedoublant extends Kevin {
 
     int x;
