@@ -18,6 +18,9 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import static wumpusworld.WumpusWorld.moveKevinAuto;
@@ -82,6 +85,13 @@ public class GameWindow implements ActionListener {
     private JButton autoButton;
     private JButton displayModeButton;
     private JButton fogButton;
+    
+    private JMenuItem jmiRestart;
+    private JMenuItem jmiMenu;
+    private JMenuItem jmiExit;
+    private JMenuItem jmiAbout;
+    
+    private JFrame window;
 
     JLabel djikstraModTimeLabel;
     JLabel loooongModTimeLabel;
@@ -95,6 +105,33 @@ public class GameWindow implements ActionListener {
         window.setTitle("Le monde de Wumpus");
         window.setSize((900 / 11 * currentBoard.col) + 200, windowSize);
         window.setLayout(new BorderLayout());
+        
+        // Menu
+        
+        JMenuBar jmb = new JMenuBar();
+        JMenu jmFile = new JMenu("File");
+        jmiMenu = new JMenuItem("Menu");
+        jmiRestart = new JMenuItem("Restart");
+        jmiExit = new JMenuItem("Exit");
+        jmFile.add(jmiRestart);
+        jmFile.add(jmiMenu);
+        jmFile.addSeparator();
+        jmFile.add(jmiExit);
+        jmb.add(jmFile);
+
+        JMenu jmHelp = new JMenu("Help");
+        jmiAbout = new JMenuItem("About");
+        jmHelp.add(jmiAbout);
+        jmb.add(jmHelp);
+
+        jmiRestart.addActionListener(this);
+        jmiMenu.addActionListener(this);
+        jmiExit.addActionListener(this);
+        jmiAbout.addActionListener(this);
+        
+        window.setJMenuBar(jmb);
+        window.setVisible(true);
+        
         //Generate Grid Panel
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new GridLayout(currentBoard.col, currentBoard.row));
@@ -514,8 +551,40 @@ public class GameWindow implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         Object source = e.getSource();
-        if (source == djikstraButton) {
+        
+        // Onglet Exit
+        if (source == jmiExit){
+            System.exit(0);
+        }
+        
+        // Onglet Restart
+        else if (source == jmiRestart){
+            // TODO
+        }
+        
+        // Onglet Menu
+        else if (source == jmiMenu){
+            // TODO
+        }
+        
+        // Onglet About
+        else if (source == jmiAbout){
+            JFrame aboutFrame = new JFrame("About");
+            aboutFrame.setSize(500, 500);
+            aboutFrame.setLocationRelativeTo(null);
+            aboutFrame.setVisible(true);
+            
+            JPanel nameAbout = new JPanel();
+            JLabel labelAbout = new JLabel("<html>----------------- Create by -----------------  <br><br><br> RACZKIEWICZ Pavel <br> SERMONT Thomas <br> TIBAU Tancrede <br> BOULET Guillaume <br> LAURO Doryann <br> BERGESE Sébastien </html>");
+            labelAbout.setBorder(new EmptyBorder(10, 10, 10, 10));
+            nameAbout.add(labelAbout);
+            
+            aboutFrame.add(nameAbout);
+        }
+        
+        else if (source == djikstraButton) {
             showPath = !showPath;
             // Djikstra BUTTON
             if (showPath) {
