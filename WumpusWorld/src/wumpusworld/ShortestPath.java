@@ -13,6 +13,7 @@ public class ShortestPath {
     public int[][] djikstra;
     public ArrayList<int[]> nodeList;
     public boolean[][][][] proxi;
+    public boolean end;
 
     public ArrayList<Duo> lastNode;
     public ArrayList<int[]> path;
@@ -29,6 +30,7 @@ public class ShortestPath {
         nodeList = new ArrayList<int[]>();
         lastNode = new ArrayList<Duo>();
         path = new ArrayList<>();
+        end = false;
 
         djikstra = new int[col][row];
         for (int i = 0; i < col; i++) {
@@ -55,43 +57,44 @@ public class ShortestPath {
         mem[1] = rowStart;
         nodeList.remove(mem);
         System.out.println(proxi[mem[0]][mem[1]][mem[0] - 1][mem[1]]);
-        while (djikstra[colEnd][rowEnd] == 10000) {
+        while (djikstra[colEnd][rowEnd] == 10000 && !end) {
             mem = findMin();
             nodeList.remove(mem);
-            if (proxi[mem[0]][mem[1]][mem[0] - 1][mem[1]]) {
+            if (!end && proxi[mem[0]][mem[1]][mem[0] - 1][mem[1]]) {
                 int[] mem2 = new int[2];
                 mem2[0] = mem[0] - 1;
                 mem2[1] = mem[1];
                 updateDist(mem, mem2);
             }
-            if (proxi[mem[0]][mem[1]][mem[0] + 1][mem[1]]) {
+            if (!end && proxi[mem[0]][mem[1]][mem[0] + 1][mem[1]]) {
                 int[] mem2 = new int[2];
                 mem2[0] = mem[0] + 1;
                 mem2[1] = mem[1];
                 updateDist(mem, mem2);
             }
-            if (proxi[mem[0]][mem[1]][mem[0]][mem[1] - 1]) {
+            if (!end && proxi[mem[0]][mem[1]][mem[0]][mem[1] - 1]) {
                 int[] mem2 = new int[2];
                 mem2[0] = mem[0];
                 mem2[1] = mem[1] - 1;
                 updateDist(mem, mem2);
             }
-            if (proxi[mem[0]][mem[1]][mem[0]][mem[1] + 1]) {
+            if (!end && proxi[mem[0]][mem[1]][mem[0]][mem[1] + 1]) {
                 int[] mem2 = new int[2];
                 mem2[0] = mem[0];
                 mem2[1] = mem[1] + 1;
                 updateDist(mem, mem2);
             }
+            if (!end) {
+                proxi[mem[0]][mem[1]][mem[0] - 1][mem[1]] = false;
+                proxi[mem[0]][mem[1]][mem[0] + 1][mem[1]] = false;
+                proxi[mem[0]][mem[1]][mem[0]][mem[1] - 1] = false;
+                proxi[mem[0]][mem[1]][mem[0]][mem[1] + 1] = false;
 
-            proxi[mem[0]][mem[1]][mem[0] - 1][mem[1]] = false;
-            proxi[mem[0]][mem[1]][mem[0] + 1][mem[1]] = false;
-            proxi[mem[0]][mem[1]][mem[0]][mem[1] - 1] = false;
-            proxi[mem[0]][mem[1]][mem[0]][mem[1] + 1] = false;
-
-            proxi[mem[0] - 1][mem[1]][mem[0]][mem[1]] = false;
-            proxi[mem[0] + 1][mem[1]][mem[0]][mem[1]] = false;
-            proxi[mem[0]][mem[1] - 1][mem[0]][mem[1]] = false;
-            proxi[mem[0]][mem[1] + 1][mem[0]][mem[1]] = false;
+                proxi[mem[0] - 1][mem[1]][mem[0]][mem[1]] = false;
+                proxi[mem[0] + 1][mem[1]][mem[0]][mem[1]] = false;
+                proxi[mem[0]][mem[1] - 1][mem[0]][mem[1]] = false;
+                proxi[mem[0]][mem[1] + 1][mem[0]][mem[1]] = false;
+            }
         }
     }
 
@@ -110,11 +113,15 @@ public class ShortestPath {
         }
         System.out.println("PATH");
         System.out.println(path.size());
-        path();
-        System.out.println("PATH OK");
-        System.out.println(path.size());
-        for (int i = 0; i < path.size(); i++) {
-            System.out.print("[" + path.get(i)[0] + "," + path.get(i)[1] + "]");
+        if (!end) {
+            path();
+            System.out.println("PATH OK");
+            System.out.println(path.size());
+            for (int i = 0; i < path.size(); i++) {
+                System.out.print("[" + path.get(i)[0] + "," + path.get(i)[1] + "]");
+            }
+        } else {
+            System.out.println("PAS DE CHEMIN TROUVE");
         }
         System.out.println("DJIKSTRA OK");
     }
@@ -151,7 +158,11 @@ public class ShortestPath {
                 mem[1] = nRow - 1;
             }
         }
+        if (mem[0] == -1 && mem[1] == -1) {
+            end = true;
+        }
         return mem;
+
     }
 
     public void getProxi(int[] current) {
@@ -192,6 +203,7 @@ public class ShortestPath {
             }
         }
     }
+
     public void setProxi(boolean[][][][] proxi) {
         for (int i = 0; i < col; i++) {
             for (int j = 0; j < row; j++) {

@@ -550,9 +550,12 @@ public class GameWindow implements ActionListener {
             }
         } else if (source == loooongButton) {
             showPath = !showPath;
-            if (showPath) {
+            if (true) {
+               System.out.println("MARCHE PO LOL");
+            }
+            else if (showPath) {
                 System.out.println("Point de depart: " + xPositionKevin + " " + yPositionKevin);
-                longestPath = new LongestPath(xPositionKevin, yPositionKevin, 17, currentBoard);
+                longestPath = new LongestPath(xPositionKevin, yPositionKevin, 19, currentBoard);
                 loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND);
                 longestPath.looooongInit();
                 loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND) - djikstraTime;

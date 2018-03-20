@@ -26,13 +26,12 @@ public class WumpusWorld {
         //d.djikstra();
         // d.showDjikstra();
         sleep(3000);
-        
-        while (boardGame.kevin.status == 0) {
-            while (moveKevinAuto) {
+        while (true) {
+            while (moveKevinAuto && boardGame.kevin.status == 0) {
                 int[] move = boardGame.kevin.go();
                 boardGame.moveKevin(move[0], move[1]);
                 mWindow.refreshBoard();
-                sleep(1000);
+                sleep(50);
             }
             sleep(1);
         }

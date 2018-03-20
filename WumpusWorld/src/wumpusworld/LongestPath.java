@@ -14,14 +14,15 @@ public class LongestPath {
     public LongestPath(int countCol, int countRow, int t, Board board) {
         this.countCol = countCol;
         this.countRow = countRow;
+        System.out.println(countCol + " " + countRow);
         this.t = t;
         this.board = board;
         looooong = new ArrayList<int[]>();
         nodeList = new ArrayList<int[]>();
         for (int i = 0; i <= t; i++) {
             int[] node = new int[2];
-            node[0] = 1;
-            node[1] = 1;
+            node[0] = countCol;
+            node[1] = countRow;
             looooong.add(node);
         }
     }
