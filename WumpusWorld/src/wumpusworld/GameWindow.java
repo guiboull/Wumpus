@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.Thread.sleep;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -22,8 +23,6 @@ import javax.swing.border.EmptyBorder;
 import static wumpusworld.WumpusWorld.moveKevinAuto;
 
 public class GameWindow implements ActionListener {
-
-    private JButton[][] buttonGrid;
 
     // images
     private final ImageIcon fireImg = new ImageIcon("images/fire.jpg");
@@ -67,17 +66,26 @@ public class GameWindow implements ActionListener {
     private final ImageIcon djikstraImg = new ImageIcon("images/djikstra.jpg");
 
     private ShortestPath shortestPath;
+    private LongestPath longestPath;
     private Board currentBoard;
 
     private int xPositionKevin;
     private int yPositionKevin;
 
-    private boolean showDjikstra = false;
+    private int djikstraTime;  // temps d'execution de Djikstra
+    private int loooongTime;  // temps d'execution de l'algo pas opti
 
+    private boolean showPath = false;
+
+    private JButton[][] buttonGrid;
     private JButton djikstraButton;
+    private JButton loooongButton;
     private JButton autoButton;
     private JButton displayModeButton;
     private JButton fogButton;
+
+    JLabel djikstraModTimeLabel;
+    JLabel loooongModTimeLabel;
 
     public GameWindow(Board mBoard) {
         currentBoard = mBoard;
@@ -103,13 +111,15 @@ public class GameWindow implements ActionListener {
         generateLabelPanel.add(generateLabel);
 
         // Simple generate mode
-        JPanel simpleModPanel = new JPanel();
-        simpleModPanel.setLayout(new BoxLayout(simpleModPanel, BoxLayout.LINE_AXIS));
-        simpleModPanel.add(new JButton("Simple Mod"));
-        JLabel simpleModTimeLabel = new JLabel("Time");
-        simpleModPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        simpleModTimeLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        simpleModPanel.add(simpleModTimeLabel);
+        JPanel loooongModPanel = new JPanel();
+        loooongModPanel.setLayout(new BoxLayout(loooongModPanel, BoxLayout.LINE_AXIS));
+        loooongButton = new JButton("Loooong Mod");
+        loooongButton.addActionListener(this);
+        loooongModPanel.add(loooongButton);
+        loooongModTimeLabel = new JLabel("Time");
+        loooongModPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        loooongModTimeLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        loooongModPanel.add(loooongModTimeLabel);
 
         // Djikstra generate mode
         JPanel djikstraModPanel = new JPanel();
@@ -117,7 +127,7 @@ public class GameWindow implements ActionListener {
         djikstraButton = new JButton("Djikstra Mod");
         djikstraButton.addActionListener(this);
         djikstraModPanel.add(djikstraButton);
-        JLabel djikstraModTimeLabel = new JLabel("Time");
+        djikstraModTimeLabel = new JLabel("Time");
         djikstraModTimeLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
         djikstraModPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         djikstraModPanel.add(djikstraModTimeLabel);
@@ -173,7 +183,7 @@ public class GameWindow implements ActionListener {
 
         // add elements to configPanel
         configPanel.add(generateLabelPanel);
-        configPanel.add(simpleModPanel);
+        configPanel.add(loooongModPanel);
         configPanel.add(djikstraModPanel);
         configPanel.add(moveKevinLabelPanel);
         configPanel.add(moveKevinPanel);
@@ -498,7 +508,7 @@ public class GameWindow implements ActionListener {
                 buttonGrid[row][col].setDisabledIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1, java.awt.Image.SCALE_SMOOTH)));
                 buttonGrid[row][col].setMargin(new Insets(0, 0, 0, 0));
                 buttonGrid[row][col].setBorder(BorderFactory.createEmptyBorder());
-                showDjikstra = false;
+                showPath = false;
             }
         }
     }
@@ -507,12 +517,15 @@ public class GameWindow implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == djikstraButton) {
-            showDjikstra = !showDjikstra;
+            showPath = !showPath;
             // Djisktra BUTTON
-            if (showDjikstra) {
+            if (showPath) {
                 System.out.println("Point de depart: " + xPositionKevin + " " + yPositionKevin);
                 shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2, xPositionKevin, yPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.getProxiBoard());
+                djikstraTime = Calendar.getInstance().get(Calendar.MILLISECOND);
                 shortestPath.djikstra();
+                djikstraTime = Calendar.getInstance().get(Calendar.MILLISECOND) - djikstraTime;
+                djikstraModTimeLabel.setText(djikstraTime + " Milli");
                 shortestPath.showDjikstra();
                 // start filling grid
                 for (int row = 0; row < buttonGrid.length; row++) {
@@ -532,6 +545,39 @@ public class GameWindow implements ActionListener {
                         }
                     }
                 }
+            } else {
+                refreshBoard();
+            }
+        } else if (source == loooongButton) {
+            showPath = !showPath;
+            if (showPath) {
+                System.out.println("Point de depart: " + xPositionKevin + " " + yPositionKevin);
+                longestPath = new LongestPath(xPositionKevin, yPositionKevin, 17, currentBoard);
+                loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND);
+                longestPath.looooongInit();
+                loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND) - djikstraTime;
+                loooongModTimeLabel.setText(loooongTime + " Milli");
+                longestPath.showLoooong();
+                // start filling grid
+                for (int row = 0; row < buttonGrid.length; row++) {
+                    for (int col = 0; col < buttonGrid[row].length; col++) {
+                        // LOOOOONG
+                        for (int index = 0; index < longestPath.looooong.size(); index++) {
+                            if (row == longestPath.looooong.get(index)[0] && col == longestPath.looooong.get(index)[1] && (currentBoard.getBoard()[row][col].getGold() == false)) {
+                                ImageIcon image = djikstraImg;
+                                int scale = 2;
+                                int width = image.getIconWidth();
+                                int newWidth = width / scale;
+                                buttonGrid[row][col].setIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1, java.awt.Image.SCALE_SMOOTH)));
+                                buttonGrid[row][col].setDisabledIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1, java.awt.Image.SCALE_SMOOTH)));
+                                buttonGrid[row][col].setMargin(new Insets(0, 0, 0, 0));
+                                buttonGrid[row][col].setBorder(BorderFactory.createEmptyBorder());
+                            }
+                        }
+                    }
+                }
+            } else {
+                refreshBoard();
             }
         } else if (source == autoButton) {
             moveKevinAuto = !moveKevinAuto;

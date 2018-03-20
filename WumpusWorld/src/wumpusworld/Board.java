@@ -18,6 +18,7 @@ public class Board {
     public boolean displayMode;
     public boolean fogMode;
 
+    
     public KevinRedoublant kevin;
     public int kevinX;
     public int kevinY;
@@ -304,9 +305,5 @@ public class Board {
                 cheminPasTropOpti(countCol, countRow + 1, Direction.E, mem, t);
             }
         }
-    }
-
-    public void cheminOpti(int countCol, int countRow) {
-
     }
 }

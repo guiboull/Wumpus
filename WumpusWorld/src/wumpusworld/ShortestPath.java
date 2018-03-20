@@ -116,7 +116,6 @@ public class ShortestPath {
         for (int i = 0; i < path.size(); i++) {
             System.out.print("[" + path.get(i)[0] + "," + path.get(i)[1] + "]");
         }
-        System.out.println("[" + (col - 2) + "," + 1 + "]");
         System.out.println("DJIKSTRA OK");
     }
 
