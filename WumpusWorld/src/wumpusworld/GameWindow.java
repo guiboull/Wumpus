@@ -65,14 +65,13 @@ public class GameWindow implements ActionListener {
 
     private final ImageIcon djikstraImg = new ImageIcon("images/djikstra.jpg");
 
-    private ShortestPath shortestPath;
     private LongestPath longestPath;
     private Board currentBoard;
 
     private int xPositionKevin;
     private int yPositionKevin;
 
-    private int djikstraTime;  // temps d'execution de Djikstra
+    //private int djikstraTime;  // temps d'execution de Djikstra
     private int loooongTime;  // temps d'execution de l'algo pas opti
 
     private boolean showPath = false;
@@ -518,15 +517,21 @@ public class GameWindow implements ActionListener {
         Object source = e.getSource();
         if (source == djikstraButton) {
             showPath = !showPath;
-            // Djisktra BUTTON
+            // Djikstra BUTTON
             if (showPath) {
                 System.out.println("Point de depart: " + xPositionKevin + " " + yPositionKevin);
+                ShortestPath shortestPath = null;
+                System.gc();
                 shortestPath = new ShortestPath(currentBoard.col - 2, currentBoard.row - 2, xPositionKevin, yPositionKevin, currentBoard.colGold, currentBoard.rowGold, currentBoard.getProxiBoard());
-                djikstraTime = Calendar.getInstance().get(Calendar.MILLISECOND);
+                int djikstraTime = (int) Calendar.getInstance().getTimeInMillis();
+                System.out.println(djikstraTime);
                 shortestPath.djikstra();
-                djikstraTime = Calendar.getInstance().get(Calendar.MILLISECOND) - djikstraTime;
-                djikstraModTimeLabel.setText(djikstraTime + " Milli");
-                shortestPath.showDjikstra();
+                shortestPath.path();
+                int djikstraTime2 = (int) Calendar.getInstance().getTimeInMillis();
+                System.out.println(djikstraTime2);
+                int djikstraTime3 = djikstraTime2 - djikstraTime;
+                djikstraModTimeLabel.setText(djikstraTime3 + " Milli");
+                //shortestPath.showDjikstra();
                 // start filling grid
                 for (int row = 0; row < buttonGrid.length; row++) {
                     for (int col = 0; col < buttonGrid[row].length; col++) {
@@ -551,14 +556,13 @@ public class GameWindow implements ActionListener {
         } else if (source == loooongButton) {
             showPath = !showPath;
             if (true) {
-               System.out.println("MARCHE PO LOL");
-            }
-            else if (showPath) {
+                System.out.println("MARCHE PO LOL");
+            } else if (showPath) {
                 System.out.println("Point de depart: " + xPositionKevin + " " + yPositionKevin);
                 longestPath = new LongestPath(xPositionKevin, yPositionKevin, 19, currentBoard);
                 loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND);
                 longestPath.looooongInit();
-                loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND) - djikstraTime;
+                loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND) - loooongTime;
                 loooongModTimeLabel.setText(loooongTime + " Milli");
                 longestPath.showLoooong();
                 // start filling grid

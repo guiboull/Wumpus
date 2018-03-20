@@ -9,12 +9,15 @@ import javax.swing.JFrame;
 public class WumpusWorld {
 
     public static boolean moveKevinAuto = false;
-    private static final int numberOfCells = 10;
+    public static int numberOfCells = 10;
+    public static int interval = 50;
+    public static int holes = 5;
+    public static int chooseKevin = 1;
 
     public static void main(String[] args) throws InterruptedException {
-        // TODO code application logic here
+        holes = 15;
         Board boardGame = new Board(numberOfCells, numberOfCells);
-        boardGame.setBoard(5);
+        boardGame.setBoard(holes, chooseKevin);
         boardGame.showBoard();
         //boardGame.showBoard2();
         //boardGame.showBoard3();
@@ -26,12 +29,12 @@ public class WumpusWorld {
         //d.djikstra();
         // d.showDjikstra();
         sleep(3000);
-        while (true) {
+        while (boardGame.kevin.status == 0) {
             while (moveKevinAuto && boardGame.kevin.status == 0) {
                 int[] move = boardGame.kevin.go();
                 boardGame.moveKevin(move[0], move[1]);
                 mWindow.refreshBoard();
-                sleep(50);
+                sleep(interval);
             }
             sleep(1);
         }
