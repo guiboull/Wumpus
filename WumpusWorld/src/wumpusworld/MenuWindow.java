@@ -35,11 +35,9 @@ public class MenuWindow extends JFrame implements ActionListener {
     JComboBox kevinChoice;
     JFormattedTextField holes;
     JFormattedTextField size;
-    JFormattedTextField speed;
     JLabel kevinChoiceLabel;
     JLabel holeLabel;
     JLabel sizeLabel;
-    JLabel speedLabel;
     JButton start;
     Container contentPane;
     int interval = 50;
@@ -50,7 +48,7 @@ public class MenuWindow extends JFrame implements ActionListener {
         
         //initialisation de la fenetre et du layout
         setTitle("La légende de Kevin 12 ans");
-	setSize(500,500);
+	setSize(200,220);
         contentPane = getContentPane();
         contentPane.setLayout(new FlowLayout());
         
@@ -67,18 +65,14 @@ public class MenuWindow extends JFrame implements ActionListener {
         //Zone de texte pour le nombre de trous
         holes = new JFormattedTextField(number);
         holes.setPreferredSize(new Dimension(60, 20));
-        
+        holes.setText("4");
         holeLabel = new JLabel("Nombre de trous :");
         
         //Zone de texte pour la taille de la map
         size = new JFormattedTextField(number);
         size.setPreferredSize(new Dimension(60, 20));
+        size.setText("10");
         sizeLabel = new JLabel("Taille de la map :");
-        
-        //Zone de texte pour la vitesse de Kévin
-        speed = new JFormattedTextField(number);
-        speed.setPreferredSize(new Dimension(60, 20));
-        speedLabel = new JLabel("Vitesse de Kevin");
         
         //Bouton
         start = new JButton("Go !");
@@ -91,8 +85,6 @@ public class MenuWindow extends JFrame implements ActionListener {
         this.add(holes);
         this.add(sizeLabel);
         this.add(size);
-        this.add(speedLabel);
-        this.add(speed);
         this.add(start);
         
         setVisible(true);
