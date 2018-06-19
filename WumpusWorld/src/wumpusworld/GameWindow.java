@@ -112,6 +112,13 @@ public class GameWindow implements ActionListener {
         JMenu jmFile = new JMenu("File");
         jmiMenu = new JMenuItem("Menu");
         jmiRestart = new JMenuItem("Restart");
+        jmiRestart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                new MenuWindow();
+                //Fermer la fenêtre actuelle
+            }
+        });
         jmiExit = new JMenuItem("Exit");
         jmFile.add(jmiRestart);
         jmFile.add(jmiMenu);
