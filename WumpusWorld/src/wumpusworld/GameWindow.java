@@ -570,7 +570,7 @@ public class GameWindow implements ActionListener {
             aboutFrame.setVisible(true);
             
             JPanel nameAbout = new JPanel();
-            JLabel labelAbout = new JLabel("<html>----------------- Create by -----------------  <br><br><br> RACZKIEWICZ Pavel <br> SERMONT Thomas <br> TIBAU Tancrede <br> BOULET Guillaume <br> LAURO Doryann <br> BERGESE Sébastien </html>");
+            JLabel labelAbout = new JLabel("<html>----------------- Create by -----------------  <br><br><br> RACZKIEWICZ Pavel <br> SORMONTE Thomas <br> TIBAU Tancrede <br> BOULET Guillaume <br> LAURO Doryann <br> BERGESE Sébastien </html>");
             labelAbout.setBorder(new EmptyBorder(10, 10, 10, 10));
             nameAbout.add(labelAbout);
             
