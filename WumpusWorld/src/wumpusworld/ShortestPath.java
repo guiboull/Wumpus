@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ShortestPath {
 
+    public int max = 100;
     public int col;
     public int row;
     public int colStart;
@@ -46,7 +47,7 @@ public class ShortestPath {
             }
         }
         djikstra[colStart][rowStart] = 0;
-        this.proxi = new boolean[col][row][col][row];
+        this.proxi = new boolean[max][max][max][max];
         setProxi(proxi);
     }
 
@@ -205,14 +206,16 @@ public class ShortestPath {
     }
 
     public void setProxi(boolean[][][][] proxi) {
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                for (int k = 0; k < col; k++) {
-                    for (int l = 0; l < row; l++) {
+        for (int i = 0; i < max-2; i++) {
+            for (int j = 0; j < max-2; j++) {
+                for (int k = 0; k < max-2; k++) {
+                    for (int l = 0; l < max-2; l++) {
                         this.proxi[i][j][k][l] = proxi[i][j][k][l];
+                        //System.out.println(i +" "+ j +" "+ k +" "+ l);
                     }
                 }
             }
         }
+        System.out.println("ok setProxi");
     }
 }

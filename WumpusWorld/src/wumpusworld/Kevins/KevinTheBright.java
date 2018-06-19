@@ -12,8 +12,8 @@ import wumpusworld.ShortestPath;
 
 public class KevinTheBright extends Kevin {
 
-    int maxX = 100;
-    int maxY = 100;
+    int maxX = 98;
+    int maxY = 98;
     public boolean proxiBoard[][][][];
 
     public KevinTheBright() {
@@ -26,11 +26,14 @@ public class KevinTheBright extends Kevin {
         age = 12;
         isAlive = true;
         status = 0;
+        
         //init board kevin
         board[x][y] = 0;
-        board[0][0] = -1;
-        board[1][0] = -1;
-        board[0][1] = -1;
+        for (int i = 0; i < maxX; i++) {
+                board[i][0] = -1;
+                board[0][i] = -1;
+        }
+        
         //init proxi board
         proxiBoard = new boolean[maxX][maxY][maxX][maxY];
 
@@ -301,6 +304,7 @@ public class KevinTheBright extends Kevin {
                 maxX = x;
             }
         } else if (currentCell.isEmpty()) {
+            board[x][y] = 1;
             if (board[x + 1][y] == 0) {
                 board[x + 1][y] = 2;
             }
@@ -379,16 +383,23 @@ public class KevinTheBright extends Kevin {
         }
 
         for (int i = 0; i < listCell.size(); i++) {
+        System.out.print(listCell.get(i).x + "," + listCell.get(i).y + "  ");
+        }
+            
+        for (int i = 0; i < listCell.size(); i++) {
 
             ShortestPath sp = new ShortestPath(maxX, maxY, x, y, listCell.get(i).x, listCell.get(i).y, proxiBoard);
+            System.out.println("1");
             sp.djikstra();
+            System.out.println("2");
             sp.path();
+            System.out.println("3");
             if (distMax > sp.path.size()) {
                 distMax = sp.path.size();
                 result[0] = listCell.get(i).x;
                 result[1] = listCell.get(i).y;
             }
-
+            System.out.println("4");
         }
 
         return result;
