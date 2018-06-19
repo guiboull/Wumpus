@@ -1,9 +1,6 @@
 package wumpusworld;
 
-import wumpusworld.Kevins.Kevin;
-import wumpusworld.Kevins.KevinTheFirst;
-import wumpusworld.Kevins.KevinRedoublant;
-import wumpusworld.Kevins.KevinTheBright;
+import wumpusworld.Kevins.*;
 
 public class Board {
 
@@ -199,7 +196,7 @@ public class Board {
         kevin.currentCell = board[kevinY][kevinX];
     }
 
-    public void setBoard(int holes) {
+    public void setBoard(int holes, int chooseKevin) {
         boolean ok = false;
         int countCol;
         int countRow;
@@ -207,7 +204,17 @@ public class Board {
         kevinY = col - 2;
         board[kevinY][kevinX].setPlayer(true);
         board[kevinY][kevinX].setFog(false);
-        kevin = new KevinTheBright();
+
+        if (chooseKevin == 1) {
+            kevin = new KevinRedoublant();
+        }
+        if (chooseKevin == 2) {
+            kevin = new KevinTheFirst();
+        }
+        if (chooseKevin == 3) {
+            kevin = new KevinTheBright();
+        }
+
         kevin.currentCell = board[kevinX][kevinY];
 
         while (ok == false) {
@@ -252,7 +259,7 @@ public class Board {
             while (ok == false) {
                 countCol = (int) (Math.random() * (col - 2)) + 1;
                 countRow = (int) (Math.random() * (row - 2)) + 1;
-                if (board[countCol][countRow].getPlayer() == false && board[countCol][countRow].getMonster() == false && board[countCol][countRow].getHole() == false && board[countCol][countRow].getGold() == false) {
+                if (board[countCol][countRow].getPlayer() == false && board[countCol][countRow].getMonster() == false && board[countCol][countRow].getHole() == false && board[countCol][countRow].getGold() == false && board[countCol-1][countRow].getPlayer() == false && board[countCol][countRow-1].getPlayer() == false) {
                     board[countCol][countRow].setHole(true);
 
                     proxiBoard[countCol][countRow][countCol - 1][countRow] = false;
