@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import static wumpusworld.WumpusWorld.moveKevinAuto;
+//import static wumpusworld.WumpusWorld.moveKevinAuto;
 
 /**
  *
@@ -61,23 +61,23 @@ public class MenuWindow extends JFrame implements ActionListener {
         kevinChoice.addItem("Kevin, le Redoublant");
         kevinChoice.addItem("Kevin, l'authentique");
         kevinChoice.addItem("Kevin, le brillant");
-        kevinChoice.setPreferredSize(new Dimension(100, 20));
+        kevinChoice.setPreferredSize(new Dimension(150, 20));
         kevinChoiceLabel = new JLabel("Choix du Kevin : ");
         
         //Zone de texte pour le nombre de trous
         holes = new JFormattedTextField(number);
-        holes.setPreferredSize(new Dimension(40, 20));
+        holes.setPreferredSize(new Dimension(60, 20));
         
         holeLabel = new JLabel("Nombre de trous :");
         
         //Zone de texte pour la taille de la map
         size = new JFormattedTextField(number);
-        size.setPreferredSize(new Dimension(40, 20));
+        size.setPreferredSize(new Dimension(60, 20));
         sizeLabel = new JLabel("Taille de la map :");
         
         //Zone de texte pour la vitesse de Kévin
         speed = new JFormattedTextField(number);
-        speed.setPreferredSize(new Dimension(40, 20));
+        speed.setPreferredSize(new Dimension(60, 20));
         speedLabel = new JLabel("Vitesse de Kevin");
         
         //Bouton
@@ -145,6 +145,7 @@ public class MenuWindow extends JFrame implements ActionListener {
             }
         };
         t2.start();
+        dispose();
     }
                 
     
