@@ -81,7 +81,6 @@ public class GameWindow implements ActionListener {
 
     private JButton[][] buttonGrid;
     private JButton djikstraButton;
-    private JButton loooongButton;
     private JButton autoButton;
     private JButton displayModeButton;
     private JButton fogButton;
@@ -94,7 +93,6 @@ public class GameWindow implements ActionListener {
     private JFrame window;
 
     JLabel djikstraModTimeLabel;
-    JLabel loooongModTimeLabel;
 
     public GameWindow(Board mBoard) {
         currentBoard = mBoard;
@@ -152,17 +150,6 @@ public class GameWindow implements ActionListener {
         JLabel generateLabel = new JLabel("Generate Paths: ");
         generateLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
         generateLabelPanel.add(generateLabel);
-
-        // Simple generate mode
-        JPanel loooongModPanel = new JPanel();
-        loooongModPanel.setLayout(new BoxLayout(loooongModPanel, BoxLayout.LINE_AXIS));
-        loooongButton = new JButton("Loooong Mod");
-        loooongButton.addActionListener(this);
-        loooongModPanel.add(loooongButton);
-        loooongModTimeLabel = new JLabel("Time");
-        loooongModPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        loooongModTimeLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        loooongModPanel.add(loooongModTimeLabel);
 
         // Djikstra generate mode
         JPanel djikstraModPanel = new JPanel();
@@ -226,7 +213,6 @@ public class GameWindow implements ActionListener {
 
         // add elements to configPanel
         configPanel.add(generateLabelPanel);
-        configPanel.add(loooongModPanel);
         configPanel.add(djikstraModPanel);
         configPanel.add(moveKevinLabelPanel);
         configPanel.add(moveKevinPanel);
@@ -614,39 +600,6 @@ public class GameWindow implements ActionListener {
                         // DJIKSTRA
                         for (int index = 0; index < shortestPath.path.size(); index++) {
                             if (row == shortestPath.path.get(index)[0] && col == shortestPath.path.get(index)[1] && (currentBoard.getBoard()[row][col].getGold() == false)) {
-                                ImageIcon image = djikstraImg;
-                                int scale = 2;
-                                int width = image.getIconWidth();
-                                int newWidth = width / scale;
-                                buttonGrid[row][col].setIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1, java.awt.Image.SCALE_SMOOTH)));
-                                buttonGrid[row][col].setDisabledIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1, java.awt.Image.SCALE_SMOOTH)));
-                                buttonGrid[row][col].setMargin(new Insets(0, 0, 0, 0));
-                                buttonGrid[row][col].setBorder(BorderFactory.createEmptyBorder());
-                            }
-                        }
-                    }
-                }
-            } else {
-                refreshBoard();
-            }
-        } else if (source == loooongButton) {
-            showPath = !showPath;
-            if (true) {
-                System.out.println("MARCHE PO LOL");
-            } else if (showPath) {
-                System.out.println("Point de depart: " + xPositionKevin + " " + yPositionKevin);
-                longestPath = new LongestPath(xPositionKevin, yPositionKevin, 19, currentBoard);
-                loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND);
-                longestPath.looooongInit();
-                loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND) - loooongTime;
-                loooongModTimeLabel.setText(loooongTime + " Milli");
-                longestPath.showLoooong();
-                // start filling grid
-                for (int row = 0; row < buttonGrid.length; row++) {
-                    for (int col = 0; col < buttonGrid[row].length; col++) {
-                        // LOOOOONG
-                        for (int index = 0; index < longestPath.looooong.size(); index++) {
-                            if (row == longestPath.looooong.get(index)[0] && col == longestPath.looooong.get(index)[1] && (currentBoard.getBoard()[row][col].getGold() == false)) {
                                 ImageIcon image = djikstraImg;
                                 int scale = 2;
                                 int width = image.getIconWidth();
