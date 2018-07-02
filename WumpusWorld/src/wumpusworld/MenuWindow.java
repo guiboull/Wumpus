@@ -22,6 +22,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 //import static wumpusworld.WumpusWorld.moveKevinAuto;
@@ -42,7 +47,7 @@ public class MenuWindow extends JFrame implements ActionListener {
     Container contentPane;
     int interval = 50;
     Board boardGame;
-    GameWindow mWindow;
+    GameWindow gameWindow;
     
     public MenuWindow(){
         
@@ -111,35 +116,26 @@ public class MenuWindow extends JFrame implements ActionListener {
         holesNumber = Integer.valueOf(holes.getText().trim());
         //System.out.println("valeurs : "+numberOfCells+" ,"+holesNumber);
         boardGame = new Board(numberOfCells, numberOfCells);
-        boardGame.setBoard(holesNumber, chooseKevin);
+        boardGame.setBoard(holesNumber, chooseKevin);     
+        gameWindow = new GameWindow(boardGame);
+        //Code à modifier
+        //************************************
+        ExecutorService executorService = new ThreadPoolExecutor(1, 1, 1000,
+        TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+        Future future = executorService.submit(new Runnable() {
         
-        final Thread t1 = new Thread(){
-            @Override
-            public void run(){
-                mWindow = new GameWindow(boardGame);
-                callMyService();
-                mWindow.refreshBoard();
-                System.out.println(""+WumpusWorld.moveKevinAuto);
-            }
-        };
-        t1.start();
-
-        final Thread t2 = new Thread(){
         @Override
-            public void run(){
-                try {
-                    t1.join();
-                    sleep(3000);
-                    play(boardGame, mWindow);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MenuWindow.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        public void run() {
+            try {
+                play(boardGame, gameWindow);
+            } catch (InterruptedException e) {
+					e.printStackTrace();
             }
-        };
-        t2.start();
+            System.out.println("fin tache");		}
+	});
+        
         dispose();
     }
-                
     
 
     public void play(Board boardGame, GameWindow mWindow) throws InterruptedException{
@@ -155,13 +151,4 @@ public class MenuWindow extends JFrame implements ActionListener {
         }
     }
     
-    private static void callMyService() {
-        System.out.println("DEBUT appel bloquant");
-        try {
-            Thread.currentThread().sleep(7000);
-            System.out.println("FIN appel bloquant");
-        } catch (InterruptedException e) {
-            System.out.println("appel bloquant interrompu");
-        }
-    }
 }

@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import static wumpusworld.WumpusWorld.moveKevinAuto;
 
-public class GameWindow implements ActionListener {
+public class GameWindow extends JFrame implements ActionListener {
 
     // images
     private final ImageIcon fireImg = new ImageIcon("images/fire.jpg");
@@ -81,6 +81,7 @@ public class GameWindow implements ActionListener {
 
     private JButton[][] buttonGrid;
     private JButton djikstraButton;
+    private JButton loooongButton;
     private JButton autoButton;
     private JButton displayModeButton;
     private JButton fogButton;
@@ -93,12 +94,15 @@ public class GameWindow implements ActionListener {
     private JFrame window;
 
     JLabel djikstraModTimeLabel;
+    JLabel loooongModTimeLabel;
+    
+    public static boolean isMyGameWindowRunning = false;
 
     public GameWindow(Board mBoard) {
         currentBoard = mBoard;
         int windowSize = 900 / 11 * currentBoard.col;
         buttonGrid = new JButton[currentBoard.col][currentBoard.row];
-        JFrame window = new JFrame();
+        window = new JFrame();
         window.setResizable(true);
         window.setTitle("Le monde de Wumpus");
         window.setSize((900 / 11 * currentBoard.col) + 200, windowSize);
@@ -110,13 +114,7 @@ public class GameWindow implements ActionListener {
         JMenu jmFile = new JMenu("File");
         jmiMenu = new JMenuItem("Menu");
         jmiRestart = new JMenuItem("Restart");
-        jmiRestart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-                new MenuWindow();
-                //Fermer la fenêtre actuelle
-            }
-        });
+  
         jmiExit = new JMenuItem("Exit");
         jmFile.add(jmiRestart);
         jmFile.add(jmiMenu);
@@ -375,7 +373,7 @@ public class GameWindow implements ActionListener {
         }
 
         window.setLocationRelativeTo(null);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
     }
 
@@ -555,7 +553,14 @@ public class GameWindow implements ActionListener {
         // Onglet Restart
         else if (source == jmiRestart){
             // TODO
+            new MenuWindow();
+            try{
+                window.dispose();
+            }catch (Exception exception) {
+		System.out.println(exception.toString());
+            }
         }
+        
         
         // Onglet Menu
         else if (source == jmiMenu){
@@ -570,7 +575,7 @@ public class GameWindow implements ActionListener {
             aboutFrame.setVisible(true);
             
             JPanel nameAbout = new JPanel();
-            JLabel labelAbout = new JLabel("<html>----------------- Create by -----------------  <br><br><br> RACZKIEWICZ Pavel <br> SORMONTE Thomas <br> TIBAU Tancrede <br> BOULET Guillaume <br> LAURO Doryann <br> BERGESE Sébastien </html>");
+            JLabel labelAbout = new JLabel("<html>----------------- Create by -----------------  <br><br><br> RACZKIEWICZ Pavel <br> SERMONT Thomas <br> TIBAU Tancrede <br> BOULET Guillaume <br> LAURO Doryann <br> BERGESE Sébastien </html>");
             labelAbout.setBorder(new EmptyBorder(10, 10, 10, 10));
             nameAbout.add(labelAbout);
             
@@ -600,6 +605,39 @@ public class GameWindow implements ActionListener {
                         // DJIKSTRA
                         for (int index = 0; index < shortestPath.path.size(); index++) {
                             if (row == shortestPath.path.get(index)[0] && col == shortestPath.path.get(index)[1] && (currentBoard.getBoard()[row][col].getGold() == false)) {
+                                ImageIcon image = djikstraImg;
+                                int scale = 2;
+                                int width = image.getIconWidth();
+                                int newWidth = width / scale;
+                                buttonGrid[row][col].setIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1, java.awt.Image.SCALE_SMOOTH)));
+                                buttonGrid[row][col].setDisabledIcon(new ImageIcon(image.getImage().getScaledInstance(newWidth, -1, java.awt.Image.SCALE_SMOOTH)));
+                                buttonGrid[row][col].setMargin(new Insets(0, 0, 0, 0));
+                                buttonGrid[row][col].setBorder(BorderFactory.createEmptyBorder());
+                            }
+                        }
+                    }
+                }
+            } else {
+                refreshBoard();
+            }
+        } else if (source == loooongButton) {
+            showPath = !showPath;
+            if (true) {
+                System.out.println("MARCHE PO LOL");
+            } else if (showPath) {
+                System.out.println("Point de depart: " + xPositionKevin + " " + yPositionKevin);
+                longestPath = new LongestPath(xPositionKevin, yPositionKevin, 19, currentBoard);
+                loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND);
+                longestPath.looooongInit();
+                loooongTime = Calendar.getInstance().get(Calendar.MILLISECOND) - loooongTime;
+                loooongModTimeLabel.setText(loooongTime + " Milli");
+                longestPath.showLoooong();
+                // start filling grid
+                for (int row = 0; row < buttonGrid.length; row++) {
+                    for (int col = 0; col < buttonGrid[row].length; col++) {
+                        // LOOOOONG
+                        for (int index = 0; index < longestPath.looooong.size(); index++) {
+                            if (row == longestPath.looooong.get(index)[0] && col == longestPath.looooong.get(index)[1] && (currentBoard.getBoard()[row][col].getGold() == false)) {
                                 ImageIcon image = djikstraImg;
                                 int scale = 2;
                                 int width = image.getIconWidth();
